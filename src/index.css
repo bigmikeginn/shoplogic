@@ -58,9 +58,36 @@ button, input, select, textarea {
     @apply rounded-lg bg-gradient-to-br p-6 text-white shadow-lg;
   }
 
-  /* Input styling */
+  /* Input styling - adaptive for mobile/desktop */
   .input-modern {
-    @apply w-full px-4 py-2 bg-gray-700 bg-opacity-50 text-white border border-gray-600 rounded-lg placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-all;
+    @apply w-full px-2 py-1 sm:px-3 sm:py-2 lg:px-4 lg:py-3 bg-gray-700 bg-opacity-50 text-white text-sm sm:text-base lg:text-lg border border-gray-600 rounded-lg placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-all;
+  }
+
+  /* Responsive spacing utilities */
+  .px-responsive {
+    @apply px-3 sm:px-4 lg:px-6;
+  }
+
+  .py-responsive {
+    @apply py-2 sm:py-3 lg:py-4;
+  }
+
+  .gap-responsive {
+    @apply gap-2 sm:gap-3 lg:gap-4;
+  }
+
+  .p-responsive {
+    @apply p-3 sm:p-4 lg:p-6;
+  }
+
+  /* Mobile-first form layouts */
+  .form-compact {
+    @apply space-y-2 sm:space-y-3 lg:space-y-4;
+  }
+
+  /* Responsive button sizes */
+  .btn-responsive {
+    @apply px-3 py-2 sm:px-4 sm:py-2 lg:px-6 lg:py-3 text-sm sm:text-base lg:text-lg;
   }
 
   /* Button styling */
