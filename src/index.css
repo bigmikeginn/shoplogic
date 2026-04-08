@@ -60,7 +60,7 @@ button, input, select, textarea {
 
   /* Input styling - adaptive for mobile/desktop */
   .input-modern {
-    @apply w-full px-2 py-1 sm:px-3 sm:py-2 lg:px-4 lg:py-3 bg-gray-700 bg-opacity-50 text-white text-sm sm:text-base lg:text-lg border border-gray-600 rounded-lg placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-all;
+    @apply w-full px-2 py-1 sm:px-2.5 sm:py-1.5 lg:px-3 lg:py-2.5 bg-gray-700 bg-opacity-50 text-white text-sm sm:text-base lg:text-lg border border-gray-600 rounded-lg placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-all;
   }
 
   /* Responsive spacing utilities */
@@ -82,7 +82,7 @@ button, input, select, textarea {
 
   /* Mobile-first form layouts */
   .form-compact {
-    @apply space-y-2 sm:space-y-3 lg:space-y-4;
+    @apply space-y-1 sm:space-y-2 lg:space-y-3;
   }
 
   /* Responsive button sizes */

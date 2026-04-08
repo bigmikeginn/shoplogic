@@ -25,7 +25,7 @@ export default function FinishEstimator() {
     <div className="w-full min-h-screen p-3 sm:p-4 lg:p-6 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex flex-col items-center justify-center">
       <div className="w-full max-w-md">
         <h2 className="text-responsive-lg sm:text-responsive-xl lg:text-responsive-2xl font-bold mb-1 sm:mb-2 text-white text-center">Finish Estimator</h2>
-        <p className="text-responsive-sm sm:text-responsive-base text-gray-300 mb-3 sm:mb-4 text-center">Calculate finish coverage for Oil, Polyurethane, or Shellac</p>
+        <p className="text-responsive-sm sm:text-responsive-base text-gray-300 mb-3 sm:mb-4 text-center">Calculate finish coverage for various wood finishes</p>
 
         <div className="form-compact">
           <input

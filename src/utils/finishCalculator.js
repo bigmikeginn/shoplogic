@@ -24,6 +24,41 @@ const FINISH_PRESETS = {
     coats: 2,
     drySand: false,
     notes: '2-3lb cut ratio, excellent grain pop'
+  },
+  osmo: {
+    name: 'Osmo Polyx-Oil (Hard Wax Oil)',
+    coverage: 350,  // sq ft per quart
+    coats: 2,
+    drySand: true,
+    notes: 'Popular, durable hard wax oil finish'
+  },
+  rubio: {
+    name: 'Rubio Monocoat (Hard Wax Oil)',
+    coverage: 275,  // sq ft per quart (mid-range of 200-350)
+    coats: 1,
+    drySand: false,
+    notes: 'Premium one-coat hard wax oil finish'
+  },
+  lacquer: {
+    name: 'Lacquer',
+    coverage: 200,  // sq ft per quart (mid-range of 150-250)
+    coats: 3,
+    drySand: true,
+    notes: 'Fast-drying glossy finish, sand between coats'
+  },
+  waterPoly: {
+    name: 'Water-based Polyurethane',
+    coverage: 450,  // sq ft per quart (mid-range of 400-500)
+    coats: 3,
+    drySand: true,
+    notes: 'Eco-friendly, low VOC, quick drying'
+  },
+  exteriorStain: {
+    name: 'Exterior Stain',
+    coverage: 300,  // sq ft per quart (mid-range of 250-350)
+    coats: 2,
+    drySand: false,
+    notes: 'Weather protection for outdoor projects'
   }
 };
 

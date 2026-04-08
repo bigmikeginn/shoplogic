@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ModuleMenu from './components/ModuleMenu';
 import BoardFeet from './components/BoardFeet';
 import PlywoodPlanner from './components/PlywoodPlanner';
@@ -32,12 +32,26 @@ export default function App() {
   const handleSelectModule = (moduleId) => {
     setActiveModule(moduleId);
     setViewMode('module');
+    // Push state to browser history
+    window.history.pushState({ viewMode: 'module', moduleId }, '');
   };
 
   const handleBackToMenu = () => {
     setViewMode('menu');
     setActiveModule(null);
   };
+
+  // Listen for browser back button
+  useEffect(() => {
+    const handlePopState = () => {
+      handleBackToMenu();
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, []);
 
   if (viewMode === 'menu') {
     return <ModuleMenu onSelectModule={handleSelectModule} />;

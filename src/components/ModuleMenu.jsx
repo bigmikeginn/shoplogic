@@ -4,7 +4,7 @@ export default function ModuleMenu({ onSelectModule }) {
   const modules = getModulesSorted();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-4 sm:p-6 lg:p-8">
+    <div className="w-full h-screen overflow-y-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-4 sm:p-6 lg:p-8">
       {/* Header */}
       <div className="text-center mb-8 sm:mb-12 lg:mb-16">
         <h1 className="text-responsive-2xl font-bold text-white mb-2">

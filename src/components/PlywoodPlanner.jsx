@@ -40,7 +40,7 @@ export default function PlywoodPlanner() {
         <div className="flex flex-col gap-2 sm:gap-3">
           {/* Input Panel */}
           <div className="bg-gray-800 bg-opacity-50 rounded-lg border border-gray-700 p-3 sm:p-4 backdrop-blur">
-            <h3 className="font-bold text-white text-responsive-base mb-2">Parts</h3>
+            <h3 className="font-bold text-white text-responsive-base mb-2">Parts (Length × Width × # Parts)</h3>
             <div className="space-y-1 max-h-48 sm:max-h-64 lg:max-h-96 overflow-y-auto scrollbar-styled mb-3">
               {parts.map((part, idx) => (
                 <div
@@ -62,14 +62,6 @@ export default function PlywoodPlanner() {
                   <div className="grid grid-cols-3 gap-1">
                     <input
                       type="number"
-                      placeholder="W"
-                      value={part.width}
-                      onChange={(e) => updatePart(idx, 'width', e.target.value)}
-                      className="px-2 py-1 bg-gray-700 border border-gray-600 rounded text-white placeholder-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-xs"
-                      min="1"
-                    />
-                    <input
-                      type="number"
                       placeholder="L"
                       value={part.length}
                       onChange={(e) => updatePart(idx, 'length', e.target.value)}
@@ -78,7 +70,15 @@ export default function PlywoodPlanner() {
                     />
                     <input
                       type="number"
-                      placeholder="Qty"
+                      placeholder="W"
+                      value={part.width}
+                      onChange={(e) => updatePart(idx, 'width', e.target.value)}
+                      className="px-2 py-1 bg-gray-700 border border-gray-600 rounded text-white placeholder-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-xs"
+                      min="1"
+                    />
+                    <input
+                      type="number"
+                      placeholder="# Parts"
                       value={part.qty}
                       onChange={(e) => updatePart(idx, 'qty', e.target.value)}
                       className="px-2 py-1 bg-gray-700 border border-gray-600 rounded text-white placeholder-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-xs"
