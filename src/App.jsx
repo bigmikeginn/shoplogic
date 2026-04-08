@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import ModuleMenu from './components/ModuleMenu';
 import BoardFeet from './components/BoardFeet';
 import PlywoodPlanner from './components/PlywoodPlanner';
 import FinishEstimator from './components/FinishEstimator';
@@ -9,52 +10,74 @@ import JoinerySpacing from './components/JoinerySpacing';
 import CutListGenerator from './components/CutListGenerator';
 import WoodMovementCalc from './components/WoodMovementCalc';
 import FastenerCalculator from './components/FastenerCalculator';
+import { getModuleById } from './utils/moduleConfig';
 
-const MODULES = [
-  { id: 'board-feet', label: 'Board Feet', component: BoardFeet },
-  { id: 'plywood-planner', label: 'Plywood Planner', component: PlywoodPlanner },
-  { id: 'finish-estimator', label: 'Finish Estimator', component: FinishEstimator },
-  { id: 'fraction-math', label: 'Fraction Math', component: FractionMath },
-  { id: 'metric-converter', label: 'Converter', component: MetricConverter },
-  { id: 'wood-database', label: 'Wood Database', component: WoodDatabase },
-  { id: 'joinery-spacing', label: 'Joinery Spacer', component: JoinerySpacing },
-  { id: 'cut-list', label: 'Cut List', component: CutListGenerator },
-  { id: 'wood-movement', label: 'Movement', component: WoodMovementCalc },
-  { id: 'fastener-calc', label: 'Fasteners', component: FastenerCalculator },
-];
+const COMPONENT_MAP = {
+  'board-feet': BoardFeet,
+  'plywood-planner': PlywoodPlanner,
+  'finish-estimator': FinishEstimator,
+  'fraction-math': FractionMath,
+  'metric-converter': MetricConverter,
+  'wood-database': WoodDatabase,
+  'joinery-spacer': JoinerySpacing,
+  'cut-list-generator': CutListGenerator,
+  'wood-movement-calc': WoodMovementCalc,
+  'fastener-calculator': FastenerCalculator,
+};
 
 export default function App() {
-  const [activeModule, setActiveModule] = useState('board-feet');
-  const module = MODULES.find(m => m.id === activeModule);
-  const Component = module?.component;
+  const [viewMode, setViewMode] = useState('menu'); // 'menu' or 'module'
+  const [activeModule, setActiveModule] = useState(null);
+
+  const handleSelectModule = (moduleId) => {
+    setActiveModule(moduleId);
+    setViewMode('module');
+  };
+
+  const handleBackToMenu = () => {
+    setViewMode('menu');
+    setActiveModule(null);
+  };
+
+  if (viewMode === 'menu') {
+    return <ModuleMenu onSelectModule={handleSelectModule} />;
+  }
+
+  const Component = COMPONENT_MAP[activeModule];
+  const moduleConfig = getModuleById(activeModule);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm">
-        <div className="max-w-6xl mx-auto px-4 py-4">
-          <h1 className="text-3xl font-bold text-gray-900">ShopLogic Utility</h1>
-          <p className="text-gray-600">Woodworking Tools & Calculators</p>
-
-          <nav className="flex gap-2 mt-4">
-            {MODULES.map(m => (
-              <button
-                key={m.id}
-                onClick={() => setActiveModule(m.id)}
-                className={`px-4 py-2 rounded-md font-medium transition ${
-                  activeModule === m.id
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                }`}
-              >
-                {m.label}
-              </button>
-            ))}
-          </nav>
+    <div className="min-h-screen w-full bg-gradient-to-br from-gray-900 to-gray-800 flex flex-col">
+      {/* Header with back button */}
+      <header className="bg-gray-800 bg-opacity-50 backdrop-blur border-b border-gray-700 sticky top-0 z-10">
+        <div className="h-full px-4 sm:px-6 lg:px-8 py-3 sm:py-4 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3 flex-1 min-w-0">
+            <button
+              onClick={handleBackToMenu}
+              className="flex-shrink-0 p-2 hover:bg-gray-700 rounded-lg transition-colors"
+              title="Back to menu"
+            >
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <div className="min-w-0">
+              <div className="text-responsive-lg font-bold text-white truncate">
+                {moduleConfig?.icon} {moduleConfig?.title}
+              </div>
+              <p className="text-responsive-sm text-gray-300 truncate">
+                {moduleConfig?.description}
+              </p>
+            </div>
+          </div>
         </div>
       </header>
 
-      <main className="max-w-6xl mx-auto py-8">
-        {Component && <Component />}
+      {/* Module Content - Full screen */}
+      <main className="flex-1 w-full overflow-auto">
+        <div className="w-full h-full">
+          {Component && <Component />}
+        </div>
       </main>
     </div>
   );

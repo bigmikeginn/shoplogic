@@ -18,28 +18,27 @@ export default function WoodDatabase() {
   }
 
   return (
-    <div className="p-6 max-w-6xl mx-auto">
-      <h2 className="text-2xl font-bold mb-4">Wood Database</h2>
-      <p className="text-sm text-gray-600 mb-6">Reference properties for common woodworking species</p>
+    <div className="w-full h-full p-4 sm:p-6 lg:p-8 overflow-auto scrollbar-styled flex items-start justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+      <div className="w-full max-w-2xl">
+        <h2 className="text-responsive-2xl font-bold mb-2 text-white">Wood Database</h2>
+        <p className="text-responsive-base text-gray-300 mb-6 sm:mb-8">Reference properties for common woodworking species</p>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* List Panel */}
-        <div className="bg-white rounded-lg border border-gray-200 p-4">
-          <h3 className="font-bold mb-3">Species</h3>
+        <div className="space-y-3 sm:space-y-4 mb-6">
+          <h3 className="font-bold text-responsive-lg text-white">Species</h3>
 
-          <div className="mb-4">
+          <div>
             <input
               type="text"
               placeholder="Search woods..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="input-modern text-responsive-base"
             />
           </div>
 
           {!search && (
-            <div className="space-y-2 mb-4 pb-4 border-b">
-              <label className="flex items-center gap-2 text-sm">
+            <div className="space-y-2 pb-4 border-b border-gray-700">
+              <label className="flex items-center gap-2 text-responsive-base text-gray-300">
                 <input
                   type="radio"
                   checked={filter === 'all'}
@@ -48,7 +47,7 @@ export default function WoodDatabase() {
                 />
                 All Woods
               </label>
-              <label className="flex items-center gap-2 text-sm">
+              <label className="flex items-center gap-2 text-responsive-base text-gray-300">
                 <input
                   type="radio"
                   checked={filter === 'hardness'}
@@ -68,7 +67,7 @@ export default function WoodDatabase() {
                   className="w-full text-xs mt-2"
                 />
               )}
-              <label className="flex items-center gap-2 text-sm">
+              <label className="flex items-center gap-2 text-responsive-base text-gray-300">
                 <input
                   type="radio"
                   checked={filter === 'stability'}
@@ -91,19 +90,19 @@ export default function WoodDatabase() {
             </div>
           )}
 
-          <div className="space-y-2 max-h-96 overflow-y-auto">
+          <div className="space-y-2 max-h-96 overflow-y-auto scrollbar-styled">
             {displayWoods.map((wood) => (
               <button
                 key={wood.name}
                 onClick={() => setSelectedWood(wood)}
-                className={`w-full text-left px-3 py-2 rounded-md text-sm transition ${
+                className={`w-full text-left px-3 py-2 rounded-lg text-responsive-base transition ${
                   selectedWood.name === wood.name
-                    ? 'bg-blue-100 border-l-4 border-blue-600'
-                    : 'hover:bg-gray-100'
+                    ? 'bg-blue-600 bg-opacity-50 border-l-4 border-blue-400 text-white'
+                    : 'bg-gray-800 bg-opacity-30 text-gray-300 border border-gray-700 hover:bg-opacity-50'
                 }`}
               >
                 <p className="font-medium">{wood.name}</p>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-gray-400">
                   Move: {wood.movement}% | Hard: {wood.hardness}
                 </p>
               </button>
@@ -113,45 +112,43 @@ export default function WoodDatabase() {
 
         {/* Details Panel */}
         {selectedWood && (
-          <div className="lg:col-span-2 space-y-4">
-            <div className="bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 rounded-lg p-4">
-              <h3 className="text-xl font-bold text-amber-900 mb-4">{selectedWood.name}</h3>
+          <div className="p-6 sm:p-8 bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg shadow-lg border border-amber-400">
+            <h3 className="text-responsive-2xl font-bold text-white mb-4">{selectedWood.name}</h3>
 
-              <div className="grid grid-cols-2 gap-4 mb-4">
-                <div className="bg-white p-3 rounded-md border border-amber-100">
-                  <p className="text-xs text-gray-600">Movement</p>
-                  <p className="text-2xl font-bold text-amber-700">{selectedWood.movement}%</p>
-                  <p className="text-xs text-gray-500 mt-1">Width change 0-FSP</p>
-                </div>
-                <div className="bg-white p-3 rounded-md border border-amber-100">
-                  <p className="text-xs text-gray-600">Hardness</p>
-                  <p className="text-2xl font-bold text-amber-700">{selectedWood.hardness}</p>
-                  <p className="text-xs text-gray-500 mt-1">Janka scale</p>
-                </div>
-                <div className="bg-white p-3 rounded-md border border-amber-100">
-                  <p className="text-xs text-gray-600">Density</p>
-                  <p className="text-2xl font-bold text-amber-700">{selectedWood.density}</p>
-                  <p className="text-xs text-gray-500 mt-1">Relative to water</p>
-                </div>
-                <div className="bg-white p-3 rounded-md border border-amber-100">
-                  <p className="text-xs text-gray-600">Color</p>
-                  <p className="text-sm font-bold text-amber-700">{selectedWood.color}</p>
-                </div>
+            <div className="grid grid-cols-2 gap-4 mb-4">
+              <div className="bg-gray-900 bg-opacity-50 p-3 rounded-lg border border-amber-400">
+                <p className="text-xs text-amber-100">Movement</p>
+                <p className="text-responsive-xl font-bold text-white">{selectedWood.movement}%</p>
+                <p className="text-xs text-amber-100 mt-1">Width change 0-FSP</p>
               </div>
+              <div className="bg-gray-900 bg-opacity-50 p-3 rounded-lg border border-amber-400">
+                <p className="text-xs text-amber-100">Hardness</p>
+                <p className="text-responsive-xl font-bold text-white">{selectedWood.hardness}</p>
+                <p className="text-xs text-amber-100 mt-1">Janka scale</p>
+              </div>
+              <div className="bg-gray-900 bg-opacity-50 p-3 rounded-lg border border-amber-400">
+                <p className="text-xs text-amber-100">Density</p>
+                <p className="text-responsive-xl font-bold text-white">{selectedWood.density}</p>
+                <p className="text-xs text-amber-100 mt-1">Relative to water</p>
+              </div>
+              <div className="bg-gray-900 bg-opacity-50 p-3 rounded-lg border border-amber-400">
+                <p className="text-xs text-amber-100">Color</p>
+                <p className="text-responsive-base font-bold text-white">{selectedWood.color}</p>
+              </div>
+            </div>
 
-              <div className="space-y-3">
-                <div className="bg-white p-3 rounded-md">
-                  <p className="text-xs font-semibold text-gray-600 mb-1">Grain</p>
-                  <p className="text-sm text-gray-800">{selectedWood.grain}</p>
-                </div>
-                <div className="bg-white p-3 rounded-md">
-                  <p className="text-xs font-semibold text-gray-600 mb-1">Workability</p>
-                  <p className="text-sm text-gray-800">{selectedWood.workability}</p>
-                </div>
-                <div className="bg-white p-3 rounded-md">
-                  <p className="text-xs font-semibold text-gray-600 mb-1">Finishing</p>
-                  <p className="text-sm text-gray-800">{selectedWood.finishing}</p>
-                </div>
+            <div className="space-y-3">
+              <div className="bg-gray-900 bg-opacity-50 p-3 rounded-lg border border-amber-400">
+                <p className="text-xs font-semibold text-amber-100 mb-1">Grain</p>
+                <p className="text-responsive-base text-white">{selectedWood.grain}</p>
+              </div>
+              <div className="bg-gray-900 bg-opacity-50 p-3 rounded-lg border border-amber-400">
+                <p className="text-xs font-semibold text-amber-100 mb-1">Workability</p>
+                <p className="text-responsive-base text-white">{selectedWood.workability}</p>
+              </div>
+              <div className="bg-gray-900 bg-opacity-50 p-3 rounded-lg border border-amber-400">
+                <p className="text-xs font-semibold text-amber-100 mb-1">Finishing</p>
+                <p className="text-responsive-base text-white">{selectedWood.finishing}</p>
               </div>
             </div>
           </div>

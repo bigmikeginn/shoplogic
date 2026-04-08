@@ -11,12 +11,12 @@ export default function SheetVisualization({ sheet, sheetIdx, colors }) {
   const svgHeight = SHEET_LENGTH * SCALE;
 
   return (
-    <div className="bg-white p-4 rounded-lg border border-gray-200">
-      <h4 className="font-semibold mb-2 text-sm">Sheet {sheetIdx + 1}</h4>
+    <div className="bg-gray-800 bg-opacity-50 p-4 sm:p-6 rounded-lg border border-gray-700 backdrop-blur">
+      <h4 className="font-semibold mb-4 text-responsive-lg text-white">Sheet {sheetIdx + 1}</h4>
       <svg
         width={svgWidth}
         height={svgHeight}
-        className="border border-gray-300 bg-gray-50"
+        className="border-2 border-gray-600 bg-gray-900"
         style={{ maxWidth: '100%', height: 'auto' }}
       >
         {/* Grid background */}
@@ -27,7 +27,7 @@ export default function SheetVisualization({ sheet, sheetIdx, colors }) {
             y1={0}
             x2={i * 12 * SCALE}
             y2={svgHeight}
-            stroke="#e5e7eb"
+            stroke="#4b5563"
             strokeWidth="1"
           />
         ))}
@@ -38,7 +38,7 @@ export default function SheetVisualization({ sheet, sheetIdx, colors }) {
             y1={i * 12 * SCALE}
             x2={svgWidth}
             y2={i * 12 * SCALE}
-            stroke="#e5e7eb"
+            stroke="#4b5563"
             strokeWidth="1"
           />
         ))}
@@ -50,7 +50,7 @@ export default function SheetVisualization({ sheet, sheetIdx, colors }) {
           width={svgWidth}
           height={svgHeight}
           fill="none"
-          stroke="#000"
+          stroke="#8b9dc3"
           strokeWidth="2"
         />
 
@@ -63,9 +63,9 @@ export default function SheetVisualization({ sheet, sheetIdx, colors }) {
               width={rect.w * SCALE}
               height={rect.l * SCALE}
               fill={colors[rect.partIdx % colors.length]}
-              stroke="#333"
+              stroke="#1a1a1a"
               strokeWidth="1"
-              opacity="0.7"
+              opacity="0.85"
             />
             <text
               x={(rect.x + rect.w / 2) * SCALE}
@@ -74,7 +74,7 @@ export default function SheetVisualization({ sheet, sheetIdx, colors }) {
               dominantBaseline="middle"
               fontSize="10"
               fontWeight="bold"
-              fill="#000"
+              fill="#fff"
               pointerEvents="none"
             >
               {rect.w}"×{rect.l}"
@@ -82,7 +82,7 @@ export default function SheetVisualization({ sheet, sheetIdx, colors }) {
           </g>
         ))}
       </svg>
-      <p className="text-xs text-gray-600 mt-2">
+      <p className="text-xs text-gray-400 mt-3">
         Parts: {sheet.length} | Scale: 1" = {SCALE}px
       </p>
     </div>

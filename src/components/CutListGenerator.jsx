@@ -33,25 +33,24 @@ export default function CutListGenerator() {
   };
 
   return (
-    <div className="p-6 max-w-6xl mx-auto">
-      <h2 className="text-2xl font-bold mb-4">Cut List Generator</h2>
-      <p className="text-sm text-gray-600 mb-6">Create optimized cut lists with board footage calculations</p>
+    <div className="w-full h-full p-4 sm:p-6 lg:p-8 overflow-auto scrollbar-styled flex items-start justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+      <div className="w-full max-w-2xl">
+        <h2 className="text-responsive-2xl font-bold mb-2 text-white">Cut List Generator</h2>
+        <p className="text-responsive-base text-gray-300 mb-6 sm:mb-8">Create optimized cut lists with board footage calculations</p>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Input Panel */}
-        <div className="bg-white rounded-lg border border-gray-200 p-4">
-          <h3 className="font-bold mb-3">Parts</h3>
+        <div className="space-y-3 sm:space-y-4">
+          <h3 className="font-bold text-responsive-lg text-white">Parts</h3>
 
-          <div className="space-y-2 max-h-96 overflow-y-auto mb-4 pb-4 border-b">
+          <div className="space-y-2 max-h-96 overflow-y-auto scrollbar-styled mb-4 pb-4 border-b border-gray-700">
             {parts.map((part, idx) => (
-              <div key={idx} className="p-2 bg-gray-50 rounded-md border text-sm">
-                <p className="font-medium">{part.name || 'Part'}</p>
-                <p className="text-xs text-gray-600">
+              <div key={idx} className="p-3 bg-gray-800 bg-opacity-30 rounded-lg border border-gray-700">
+                <p className="font-medium text-gray-200">{part.name || 'Part'}</p>
+                <p className="text-xs text-gray-400">
                   {part.thickness}" × {part.width}" × {part.length}" (Qty: {part.quantity})
                 </p>
                 <button
                   onClick={() => handleRemovePart(idx)}
-                  className="mt-1 text-xs px-2 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200"
+                  className="mt-2 text-xs px-2 py-1 bg-red-600 bg-opacity-50 text-red-100 rounded hover:bg-opacity-70 transition"
                 >
                   Remove
                 </button>
@@ -59,14 +58,14 @@ export default function CutListGenerator() {
             ))}
           </div>
 
-          <h4 className="font-bold mb-2 text-sm">Add Part</h4>
+          <h4 className="font-bold text-responsive-base text-white">Add Part</h4>
           <div className="space-y-2">
             <input
               type="text"
               placeholder="Part name"
               value={newPart.name}
               onChange={(e) => setNewPart({ ...newPart, name: e.target.value })}
-              className="w-full px-2 py-1 border rounded text-sm"
+              className="input-modern text-responsive-base"
             />
             <div className="grid grid-cols-2 gap-2">
               <input
@@ -75,7 +74,7 @@ export default function CutListGenerator() {
                 step="0.01"
                 value={newPart.thickness}
                 onChange={(e) => setNewPart({ ...newPart, thickness: parseFloat(e.target.value) })}
-                className="px-2 py-1 border rounded text-sm"
+                className="input-modern text-responsive-base"
               />
               <input
                 type="number"
@@ -83,7 +82,7 @@ export default function CutListGenerator() {
                 step="0.1"
                 value={newPart.width}
                 onChange={(e) => setNewPart({ ...newPart, width: parseFloat(e.target.value) })}
-                className="px-2 py-1 border rounded text-sm"
+                className="input-modern text-responsive-base"
               />
             </div>
             <div className="grid grid-cols-2 gap-2">
@@ -93,7 +92,7 @@ export default function CutListGenerator() {
                 step="0.1"
                 value={newPart.length}
                 onChange={(e) => setNewPart({ ...newPart, length: parseFloat(e.target.value) })}
-                className="px-2 py-1 border rounded text-sm"
+                className="input-modern text-responsive-base"
               />
               <input
                 type="number"
@@ -101,12 +100,12 @@ export default function CutListGenerator() {
                 min="1"
                 value={newPart.quantity}
                 onChange={(e) => setNewPart({ ...newPart, quantity: parseInt(e.target.value) })}
-                className="px-2 py-1 border rounded text-sm"
+                className="input-modern text-responsive-base"
               />
             </div>
             <button
               onClick={handleAddPart}
-              className="w-full px-3 py-2 bg-blue-600 text-white text-sm rounded hover:bg-blue-700"
+              className="w-full px-3 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-responsive-base rounded-lg hover:shadow-lg transition font-semibold"
             >
               + Add
             </button>
@@ -114,69 +113,69 @@ export default function CutListGenerator() {
 
           <button
             onClick={handleGenerate}
-            className="w-full mt-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 font-semibold"
+            className="w-full mt-6 sm:mt-8 bg-gradient-to-r from-green-500 to-emerald-600 text-white py-3 sm:py-4 rounded-lg hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-all font-semibold text-responsive-lg"
           >
             Generate Cut List
           </button>
-        </div>
 
-        {/* Results */}
-        {result && (
-          <div className="lg:col-span-2 space-y-4">
-            {/* Summary */}
-            <div className="grid grid-cols-2 gap-3">
-              <div className="bg-blue-50 p-3 rounded border border-blue-200">
-                <p className="text-xs text-gray-600">Total Parts</p>
-                <p className="text-2xl font-bold text-blue-700">{result.summary.totalParts}</p>
+          {/* Results */}
+          {result && (
+            <div className="mt-6 sm:mt-8 space-y-4">
+              {/* Summary */}
+              <div className="grid grid-cols-2 gap-3">
+                <div className="bg-gradient-to-br from-blue-500 to-cyan-600 p-4 rounded-lg border border-blue-400">
+                  <p className="text-xs text-blue-100">Total Parts</p>
+                  <p className="text-responsive-xl font-bold text-white">{result.summary.totalParts}</p>
+                </div>
+                <div className="bg-gradient-to-br from-green-500 to-emerald-600 p-4 rounded-lg border border-green-400">
+                  <p className="text-xs text-green-100">Board Feet</p>
+                  <p className="text-responsive-xl font-bold text-white">{result.summary.totalBoardFeet}</p>
+                </div>
+                <div className="bg-gradient-to-br from-purple-500 to-pink-600 p-4 rounded-lg border border-purple-400">
+                  <p className="text-xs text-purple-100">Surface Area</p>
+                  <p className="text-responsive-xl font-bold text-white">{result.summary.totalSurfaceArea} sq ft</p>
+                </div>
+                <div className="bg-gradient-to-br from-orange-500 to-red-600 p-4 rounded-lg border border-orange-400">
+                  <p className="text-xs text-orange-100">Est. Sheets</p>
+                  <p className="text-responsive-xl font-bold text-white">{result.summary.estimatedSheets}</p>
+                </div>
               </div>
-              <div className="bg-green-50 p-3 rounded border border-green-200">
-                <p className="text-xs text-gray-600">Board Feet</p>
-                <p className="text-2xl font-bold text-green-700">{result.summary.totalBoardFeet}</p>
-              </div>
-              <div className="bg-purple-50 p-3 rounded border border-purple-200">
-                <p className="text-xs text-gray-600">Surface Area</p>
-                <p className="text-2xl font-bold text-purple-700">{result.summary.totalSurfaceArea} sq ft</p>
-              </div>
-              <div className="bg-orange-50 p-3 rounded border border-orange-200">
-                <p className="text-xs text-gray-600">Est. Sheets</p>
-                <p className="text-2xl font-bold text-orange-700">{result.summary.estimatedSheets}</p>
-              </div>
-            </div>
 
-            {/* Cut List Table */}
-            <div className="bg-white rounded border border-gray-200 p-3 overflow-x-auto">
-              <h3 className="font-bold mb-2 text-sm">Cut List</h3>
-              <table className="w-full text-xs border-collapse">
-                <thead className="bg-gray-100">
-                  <tr>
-                    <th className="border p-2 text-left">Name</th>
-                    <th className="border p-2 text-right">T×W×L</th>
-                    <th className="border p-2 text-right">Qty</th>
-                    <th className="border p-2 text-right">BF</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {result.parts.map((part, idx) => (
-                    <tr key={idx} className="hover:bg-gray-50">
-                      <td className="border p-2">{part.name}</td>
-                      <td className="border p-2 text-right">
-                        {part.thickness}"×{part.width}"×{part.length}"
-                      </td>
-                      <td className="border p-2 text-right">{part.qty}</td>
-                      <td className="border p-2 text-right font-semibold">{part.boardFeet}</td>
+              {/* Cut List Table */}
+              <div className="bg-gray-800 bg-opacity-50 rounded-lg border border-gray-700 p-3 overflow-x-auto">
+                <h3 className="font-bold text-responsive-base text-white mb-2">Cut List</h3>
+                <table className="w-full text-xs border-collapse">
+                  <thead className="bg-gray-700">
+                    <tr>
+                      <th className="border border-gray-600 p-2 text-left text-gray-200">Name</th>
+                      <th className="border border-gray-600 p-2 text-right text-gray-200">T×W×L</th>
+                      <th className="border border-gray-600 p-2 text-right text-gray-200">Qty</th>
+                      <th className="border border-gray-600 p-2 text-right text-gray-200">BF</th>
                     </tr>
-                  ))}
-                  <tr className="bg-gray-100 font-bold">
-                    <td className="border p-2">TOTAL</td>
-                    <td className="border p-2"></td>
-                    <td className="border p-2 text-right">{result.summary.totalParts}</td>
-                    <td className="border p-2 text-right">{result.summary.totalBoardFeet}</td>
-                  </tr>
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {result.parts.map((part, idx) => (
+                      <tr key={idx} className="hover:bg-gray-700 hover:bg-opacity-50">
+                        <td className="border border-gray-600 p-2 text-gray-300">{part.name}</td>
+                        <td className="border border-gray-600 p-2 text-right text-gray-300">
+                          {part.thickness}"×{part.width}"×{part.length}"
+                        </td>
+                        <td className="border border-gray-600 p-2 text-right text-gray-300">{part.qty}</td>
+                        <td className="border border-gray-600 p-2 text-right font-semibold text-gray-200">{part.boardFeet}</td>
+                      </tr>
+                    ))}
+                    <tr className="bg-gray-700 font-bold">
+                      <td className="border border-gray-600 p-2 text-gray-200">TOTAL</td>
+                      <td className="border border-gray-600 p-2"></td>
+                      <td className="border border-gray-600 p-2 text-right text-gray-200">{result.summary.totalParts}</td>
+                      <td className="border border-gray-600 p-2 text-right text-gray-200">{result.summary.totalBoardFeet}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );

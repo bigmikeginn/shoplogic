@@ -20,100 +20,95 @@ export default function MetricConverter() {
   };
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
-      <h2 className="text-2xl font-bold mb-4">Metric/Imperial Converter</h2>
-      <p className="text-sm text-gray-600 mb-6">Quick conversions for shop measurements</p>
+    <div className="w-full h-full p-4 sm:p-6 lg:p-8 overflow-auto scrollbar-styled flex items-start justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+      <div className="w-full max-w-2xl">
+        <h2 className="text-responsive-2xl font-bold mb-2 text-white">Metric/Imperial Converter</h2>
+        <p className="text-responsive-base text-gray-300 mb-6 sm:mb-8">Quick conversions for shop measurements</p>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Input */}
-        <div className="bg-white rounded-lg border border-gray-200 p-4">
-          <h3 className="font-bold mb-4">Conversion</h3>
-
-          <div className="space-y-4">
-            <div>
-              <label className="text-sm font-medium">Category</label>
-              <div className="grid grid-cols-3 gap-2 mt-2">
-                {CATEGORIES.map((cat) => (
-                  <button
-                    key={cat}
-                    onClick={() => {
-                      setCategory(cat);
-                      setSelectedConversion(0);
-                      setResult(null);
-                    }}
-                    className={`py-2 px-3 rounded-md text-xs font-medium transition ${
-                      category === cat
-                        ? 'bg-blue-600 text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                  >
-                    {cat.charAt(0).toUpperCase() + cat.slice(1)}
-                  </button>
-                ))}
-              </div>
+        <div className="space-y-3 sm:space-y-4">
+          <div>
+            <label className="text-responsive-base font-medium text-gray-300">Category</label>
+            <div className="grid grid-cols-3 gap-2 mt-2">
+              {CATEGORIES.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => {
+                    setCategory(cat);
+                    setSelectedConversion(0);
+                    setResult(null);
+                  }}
+                  className={`py-2 px-3 rounded-lg text-xs font-medium transition ${
+                    category === cat
+                      ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white'
+                      : 'bg-gray-800 bg-opacity-50 text-gray-300 border border-gray-700 hover:bg-opacity-70'
+                  }`}
+                >
+                  {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                </button>
+              ))}
             </div>
+          </div>
 
-            <div>
-              <label className="text-sm font-medium">Type</label>
-              <select
-                value={selectedConversion}
-                onChange={(e) => setSelectedConversion(parseInt(e.target.value))}
-                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-              >
-                {conversions.map((conv, idx) => (
-                  <option key={idx} value={idx}>
-                    {conv.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className="text-sm font-medium">Value</label>
-              <div className="flex gap-2">
-                <input
-                  type="number"
-                  step="0.01"
-                  value={value}
-                  onChange={(e) => setValue(e.target.value)}
-                  className="flex-1 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-                <span className="py-2 px-3 bg-gray-100 rounded-md text-sm font-medium">
-                  {conversions[selectedConversion]?.from}
-                </span>
-              </div>
-            </div>
-
-            <button
-              onClick={handleCalculate}
-              className="w-full px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 font-semibold"
+          <div>
+            <label className="text-responsive-base font-medium text-gray-300">Type</label>
+            <select
+              value={selectedConversion}
+              onChange={(e) => setSelectedConversion(parseInt(e.target.value))}
+              className="input-modern text-responsive-base"
             >
-              Convert
-            </button>
+              {conversions.map((conv, idx) => (
+                <option key={idx} value={idx}>
+                  {conv.label}
+                </option>
+              ))}
+            </select>
           </div>
-        </div>
 
-        {/* Result */}
-        {result && (
-          <div className="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-300 rounded-lg p-4">
-            <h3 className="font-bold mb-4">Result</h3>
-            <div className="space-y-3">
-              <div className="bg-white p-3 rounded-md border border-green-200">
-                <p className="text-xs text-gray-600">From</p>
-                <p className="text-2xl font-bold text-gray-800">
-                  {result.value} {result.from}
-                </p>
-              </div>
-              <div className="text-center text-gray-400">↓</div>
-              <div className="bg-white p-3 rounded-md border border-green-200">
-                <p className="text-xs text-gray-600">To</p>
-                <p className="text-3xl font-bold text-green-700">
-                  {result.result.toFixed(4)} {result.to}
-                </p>
-              </div>
+          <div>
+            <label className="text-responsive-base font-medium text-gray-300">Value</label>
+            <div className="flex gap-2">
+              <input
+                type="number"
+                step="0.01"
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+                className="input-modern text-responsive-base flex-1"
+              />
+              <span className="py-2 px-3 bg-gray-800 bg-opacity-50 rounded-lg text-responsive-base font-medium text-gray-300 border border-gray-700">
+                {conversions[selectedConversion]?.from}
+              </span>
             </div>
           </div>
-        )}
+
+          <button
+            onClick={handleCalculate}
+            className="w-full mt-6 sm:mt-8 bg-gradient-to-r from-green-500 to-emerald-600 text-white py-3 sm:py-4 rounded-lg hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-all font-semibold text-responsive-lg"
+          >
+            Convert
+          </button>
+
+          {/* Result */}
+          {result && (
+            <div className="mt-6 sm:mt-8 p-6 sm:p-8 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg shadow-lg border border-green-400">
+              <h3 className="font-bold mb-4 text-responsive-lg text-white">Result</h3>
+              <div className="space-y-3">
+                <div className="bg-gray-900 bg-opacity-50 p-3 rounded-lg border border-green-400">
+                  <p className="text-xs text-green-100">From</p>
+                  <p className="text-responsive-xl font-bold text-white">
+                    {result.value} {result.from}
+                  </p>
+                </div>
+                <div className="text-center text-green-100">↓</div>
+                <div className="bg-gray-900 bg-opacity-50 p-3 rounded-lg border border-green-400">
+                  <p className="text-xs text-green-100">To</p>
+                  <p className="text-responsive-2xl font-bold text-white">
+                    {result.result.toFixed(4)} {result.to}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
