@@ -1,0 +1,150 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+  color: #ffffff;
+  overflow: hidden;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Smooth transitions */
+button, input, select, textarea {
+  transition: all 0.3s ease-out;
+}
+
+/* Responsive text scaling utilities */
+@layer utilities {
+  .text-responsive-sm {
+    @apply text-sm sm:text-base lg:text-base;
+  }
+  .text-responsive-base {
+    @apply text-base sm:text-lg lg:text-lg;
+  }
+  .text-responsive-lg {
+    @apply text-lg sm:text-xl lg:text-2xl;
+  }
+  .text-responsive-xl {
+    @apply text-xl sm:text-2xl lg:text-3xl;
+  }
+  .text-responsive-2xl {
+    @apply text-2xl sm:text-3xl lg:text-4xl;
+  }
+
+  /* Gradient backgrounds */
+  .gradient-card {
+    @apply rounded-lg bg-gradient-to-br p-6 text-white shadow-lg;
+  }
+
+  /* Input styling - adaptive for mobile/desktop */
+  .input-modern {
+    @apply w-full px-2 py-1 sm:px-2.5 sm:py-1.5 lg:px-3 lg:py-2.5 bg-gray-700 bg-opacity-50 text-white text-sm sm:text-base lg:text-lg border border-gray-600 rounded placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-all;
+  }
+
+  /* Responsive spacing utilities */
+  .px-responsive {
+    @apply px-3 sm:px-4 lg:px-6;
+  }
+
+  .py-responsive {
+    @apply py-2 sm:py-3 lg:py-4;
+  }
+
+  .gap-responsive {
+    @apply gap-2 sm:gap-3 lg:gap-4;
+  }
+
+  .p-responsive {
+    @apply p-3 sm:p-4 lg:p-6;
+  }
+
+  /* Mobile-first form layouts */
+  .form-compact {
+    @apply space-y-1 sm:space-y-2 lg:space-y-3 grid grid-cols-2 gap-2 sm:gap-3 lg:gap-4;
+  }
+
+  .form-compact > * {
+    @apply col-span-1;
+  }
+
+  .form-compact > label {
+    @apply col-span-2;
+  }
+
+  /* Responsive button sizes */
+  .btn-responsive {
+    @apply px-3 py-2 sm:px-4 sm:py-2 lg:px-6 lg:py-3 text-sm sm:text-base lg:text-lg;
+  }
+
+  /* Button styling */
+  .btn-primary {
+    @apply px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-all;
+  }
+
+  .btn-secondary {
+    @apply px-4 py-2 bg-gray-700 text-white font-semibold rounded hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-all;
+  }
+
+  /* Scrollbar styling */
+  .scrollbar-styled {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(107, 114, 128, 0.5) transparent;
+  }
+
+  .scrollbar-styled::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .scrollbar-styled::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-styled::-webkit-scrollbar-thumb {
+    background: rgba(107, 114, 128, 0.5);
+    border-radius: 4px;
+  }
+
+  .scrollbar-styled::-webkit-scrollbar-thumb:hover {
+    background: rgba(107, 114, 128, 0.7);
+  }
+}
+
+/* Animation for slide up effect */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.5s ease-out forwards;
+  opacity: 0;
+}
