@@ -1,0 +1,41 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .logo-text { font-family: Arial, sans-serif; font-weight: bold; fill: #f59e0b; }
+      .logo-subtitle { font-family: Arial, sans-serif; font-size: 8px; fill: #d97706; }
+      .logo-gear { fill: none; stroke: #f59e0b; stroke-width: 2; }
+      .logo-wrench { fill: none; stroke: #f59e0b; stroke-width: 2; }
+      .logo-ruler { fill: none; stroke: #f59e0b; stroke-width: 2; }
+    </style>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="95" fill="none" stroke="#f59e0b" stroke-width="1" opacity="0.2"/>
+
+  <!-- Gear icon -->
+  <g transform="translate(50, 60)">
+    <circle cx="0" cy="0" r="12" class="logo-gear"/>
+    <rect x="-2" y="-16" width="4" height="32" rx="2" class="logo-gear"/>
+    <rect x="-16" y="-2" width="32" height="4" rx="2" class="logo-gear"/>
+  </g>
+
+  <!-- Wrench icon -->
+  <g transform="translate(100, 60)">
+    <path d="M -8 8 Q 0 0, 12 -8" class="logo-wrench" stroke-linecap="round"/>
+    <circle cx="12" cy="-8" r="4" class="logo-wrench"/>
+  </g>
+
+  <!-- Ruler icon -->
+  <g transform="translate(150, 60)">
+    <rect x="-3" y="-12" width="6" height="24" rx="2" class="logo-ruler"/>
+    <line x1="-3" y1="-8" x2="3" y2="-8" class="logo-ruler"/>
+    <line x1="-3" y1="0" x2="3" y2="0" class="logo-ruler"/>
+    <line x1="-3" y1="8" x2="3" y2="8" class="logo-ruler"/>
+  </g>
+
+  <!-- Main text -->
+  <text x="100" y="140" text-anchor="middle" font-size="28" class="logo-text">ShopLogic</text>
+
+  <!-- Subtitle -->
+  <text x="100" y="162" text-anchor="middle" class="logo-subtitle">WORKSHOP CALCULATORS</text>
+</svg>
