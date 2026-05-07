@@ -36,12 +36,12 @@ export default function BoardFeetIllustration() {
           </text>
         </g>
 
-        {/* Dimension lines - Length (right) */}
+        {/* Dimension lines - Length (top back diagonal) */}
         <g>
-          <line x1="290" y1="65" x2="290" y2="155" stroke="var(--text-secondary)" strokeWidth="1" strokeDasharray="3,3"/>
-          <circle cx="290" cy="65" r="3" fill="var(--text-secondary)"/>
-          <circle cx="290" cy="155" r="3" fill="var(--text-secondary)"/>
-          <text x="330" y="115" fontSize="12" fill="var(--text-secondary)" fontWeight="500" textAnchor="start">Length</text>
+          <line x1="100" y1="80" x2="115" y2="65" stroke="var(--accent)" strokeWidth="1.5" strokeDasharray="3,3"/>
+          <circle cx="100" cy="80" r="3" fill="var(--accent)"/>
+          <circle cx="115" cy="65" r="3" fill="var(--accent)"/>
+          <text x="95" y="50" fontSize="12" fill="var(--accent)" fontWeight="500" textAnchor="end">Length</text>
         </g>
 
         {/* Quantity indicator */}
