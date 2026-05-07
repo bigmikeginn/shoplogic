@@ -1,7 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { getModulesByCategory, CATEGORIES } from '../utils/moduleConfig';
 import { MODULE_ICONS } from './Icons';
-import ToolsBackground from './ToolsBackground';
 import ThemeToggle from './ThemeToggle';
 
 function loadFavorites() {
@@ -93,7 +92,6 @@ export default function ModuleMenu({ onSelectModule }) {
 
   return (
     <div className="w-full h-screen overflow-y-auto p-6 sm:p-8 lg:p-10 scrollbar-styled relative" style={{ backgroundColor: 'var(--bg-primary)' }}>
-      <ToolsBackground />
       <div className="relative z-10">
         {/* Theme toggle in header */}
         <div className="absolute top-4 right-4 sm:top-6 sm:right-6 lg:top-8 lg:right-8">
