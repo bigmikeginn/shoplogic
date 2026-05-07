@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { getModulesByCategory, CATEGORIES } from '../utils/moduleConfig';
 import { MODULE_ICONS } from './Icons';
 import ToolsBackground from './ToolsBackground';
+import ThemeToggle from './ThemeToggle';
 
 function loadFavorites() {
   try {
@@ -91,16 +92,21 @@ export default function ModuleMenu({ onSelectModule }) {
   };
 
   return (
-    <div className="w-full h-screen overflow-y-auto bg-[#08080c] p-6 sm:p-8 lg:p-10 scrollbar-styled relative">
+    <div className="w-full h-screen overflow-y-auto p-6 sm:p-8 lg:p-10 scrollbar-styled relative" style={{ backgroundColor: 'var(--bg-primary)' }}>
       <ToolsBackground />
       <div className="relative z-10">
-      {/* Header */}
-      <div className="text-center mb-6 sm:mb-8">
-        <div className="inline-flex items-center gap-2 mb-2">
-          <div className="w-1.5 h-1.5 rounded-full bg-amber-500 gold-pulse" />
-          <span className="text-[10px] sm:text-xs font-medium tracking-[0.2em] uppercase text-gray-500">Workshop Tools</span>
-          <div className="w-1.5 h-1.5 rounded-full bg-amber-500 gold-pulse" style={{ animationDelay: '1.5s' }} />
+        {/* Theme toggle in header */}
+        <div className="absolute top-4 right-4 sm:top-6 sm:right-6 lg:top-8 lg:right-8">
+          <ThemeToggle />
         </div>
+
+        {/* Header */}
+        <div className="text-center mb-6 sm:mb-8">
+          <div className="inline-flex items-center gap-2 mb-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-amber-500 gold-pulse" />
+            <span className="text-[10px] sm:text-xs font-medium tracking-[0.2em] uppercase text-gray-500">Workshop Tools</span>
+            <div className="w-1.5 h-1.5 rounded-full bg-amber-500 gold-pulse" style={{ animationDelay: '1.5s' }} />
+          </div>
         <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-1 tracking-tight">
           ShopLogic<span className="text-amber-500 gold-glow-text">.</span>
         </h1>
