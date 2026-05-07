@@ -76,12 +76,12 @@ export default function ModuleMenu({ onSelectModule }) {
         </div>
 
         {/* Title */}
-        <h3 className="text-xs sm:text-sm font-semibold text-white mb-0.5 group-hover:text-amber-400 transition-colors duration-200">
+        <h3 className="text-xs sm:text-sm font-semibold mb-0.5 group-hover:text-amber-400 transition-colors duration-200" style={{ color: 'var(--text-primary)' }}>
           {module.title}
         </h3>
 
         {/* Description */}
-        <p className="text-[10px] sm:text-[11px] text-gray-500 leading-relaxed">
+        <p className="text-[10px] sm:text-[11px] leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
           {module.description}
         </p>
 
