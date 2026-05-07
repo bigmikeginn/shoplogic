@@ -1,87 +1,62 @@
 import { useState, useCallback } from 'react';
-import { calculateCost, budgetToBF, WASTE_PRESETS, PRICE_TIERS } from '../utils/boardFootPricing';
+import { calculateCost, WASTE_PRESETS, PRICE_TIERS } from '../utils/boardFootPricing';
 
 export default function BoardFootPricing() {
-  const [boardFeet, setBoardFeet] = useState('');
-  const [pricePerBF, setPricePerBF] = useState('');
-  const [wastePercent, setWastePercent] = useState(20);
-  const [taxPercent, setTaxPercent] = useState(0);
+  const [bf, setBf] = useState('');
+  const [pricePerBf, setPricePerBf] = useState('');
+  const [wastePercent, setWastePercent] = useState('20');
+  const [taxPercent, setTaxPercent] = useState('0');
   const [result, setResult] = useState(null);
 
   const handleCalculate = useCallback(() => {
-    setResult(calculateCost(boardFeet, pricePerBF, wastePercent, taxPercent));
-  }, [boardFeet, pricePerBF, wastePercent, taxPercent]);
+    setResult(calculateCost(bf, pricePerBf, wastePercent, taxPercent));
+  }, [bf, pricePerBf, wastePercent, taxPercent]);
 
   return (
-    <div className="w-full min-h-screen p-3 sm:p-4 lg:p-6 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex flex-col items-center justify-center">
-      <div className="w-full max-w-md">
-        <h2 className="text-responsive-lg sm:text-responsive-xl lg:text-responsive-2xl font-bold mb-1 sm:mb-2 text-white text-center">Board Foot Pricing</h2>
-        <p className="text-responsive-xs text-gray-400 mb-3 sm:mb-4 text-center">Calculate total cost including waste & tax</p>
-
-        <div className="form-compact">
-          <input type="text" placeholder="Board feet needed" value={boardFeet} onChange={(e) => setBoardFeet(e.target.value)} className="input-modern" />
-          <input type="text" placeholder="Price per BF ($)" value={pricePerBF} onChange={(e) => setPricePerBF(e.target.value)} className="input-modern" />
-        </div>
-
-        {/* Price tier quick picks */}
-        <div className="flex flex-wrap gap-1 mt-2">
-          {PRICE_TIERS.map((tier) => (
-            <button key={tier.name} onClick={() => setPricePerBF(tier.defaultPrice.toString())} className="px-2 py-0.5 text-xs rounded bg-gray-700 text-gray-300 hover:bg-gray-600" title={tier.range}>
-              {tier.name.split(' ')[0]} (${tier.defaultPrice})
-            </button>
-          ))}
-        </div>
-
-        {/* Waste */}
-        <div className="mt-3">
-          <label className="block text-xs text-gray-400 mb-1">Waste Factor</label>
-          <div className="flex flex-wrap gap-1">
-            {WASTE_PRESETS.map((w) => (
-              <button key={w.value} onClick={() => setWastePercent(w.value)} className={`px-2 py-0.5 text-xs rounded ${wastePercent === w.value ? 'bg-green-500 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}>
-                {w.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Tax */}
-        <div className="mt-3">
-          <label className="block text-xs text-gray-400 mb-1">Sales Tax %</label>
-          <input type="text" value={taxPercent} onChange={(e) => setTaxPercent(e.target.value)} placeholder="0" className="input-modern" />
-        </div>
-
-        <button onClick={handleCalculate} className="w-full mt-3 sm:mt-4 lg:mt-5 bg-gradient-to-r from-green-500 to-emerald-600 text-white py-2 sm:py-3 lg:py-4 rounded hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-all font-semibold text-sm sm:text-base lg:text-lg">
-          Calculate Cost
-        </button>
-
-        {result && !result.error && (
-          <div className="mt-3 sm:mt-4 lg:mt-5 space-y-3">
-            <div className="p-4 sm:p-5 bg-gradient-to-br from-green-500 to-emerald-600 rounded shadow-lg border border-green-400 text-white">
-              <p className="text-xs text-white/70 mb-1">Total Cost</p>
-              <p className="text-responsive-xl lg:text-responsive-2xl font-bold">${result.total.toFixed(2)}</p>
-              <p className="text-xs text-white/60 mt-1">Effective: ${result.effectivePriceBF.toFixed(2)}/BF (with waste & tax)</p>
-            </div>
-
-            <div className="p-4 sm:p-5 bg-gray-700 bg-opacity-50 rounded shadow border border-gray-600 text-white">
-              <div className="space-y-1 text-sm">
-                <div className="flex justify-between"><span className="text-gray-400">Material</span><span>{result.boardFeet} BF @ ${result.pricePerBF}/BF</span></div>
-                <div className="flex justify-between"><span className="text-gray-400">Subtotal</span><span>${result.subtotal.toFixed(2)}</span></div>
-                <div className="flex justify-between"><span className="text-gray-400">Waste ({result.wastePercent}%)</span><span>{result.wasteBF} BF — ${result.wasteCost.toFixed(2)}</span></div>
-                <div className="flex justify-between"><span className="text-gray-400">With Waste</span><span>{result.totalBF} BF — ${result.subtotalWithWaste.toFixed(2)}</span></div>
-                {result.tax > 0 && (
-                  <div className="flex justify-between"><span className="text-gray-400">Tax ({result.taxPercent}%)</span><span>${result.tax.toFixed(2)}</span></div>
-                )}
-                <hr className="border-gray-600" />
-                <div className="flex justify-between font-bold"><span>Total</span><span>${result.total.toFixed(2)}</span></div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {result && result.error && (
-          <div className="mt-3 sm:mt-4 p-4 bg-red-900 bg-opacity-40 rounded border border-red-700 text-red-200 text-sm">{result.error}</div>
-        )}
+    <div className="w-full max-w-md mx-auto px-4 py-6 sm:py-8">
+      <div className="form-compact">
+        <input type="text" placeholder="Board Feet" value={bf} onChange={(e) => setBf(e.target.value)} className="input-modern" />
+        <input type="text" placeholder="Price per BF ($)" value={pricePerBf} onChange={(e) => setPricePerBf(e.target.value)} className="input-modern" />
       </div>
+
+      <div className="flex gap-1 mt-2 mb-2">
+        {WASTE_PRESETS.slice(0, 5).map((w) => (
+          <button key={w.value} onClick={() => setWastePercent(w.value.toString())} className={`flex-1 py-1 text-xs rounded ${parseFloat(wastePercent) === w.value ? 'bg-amber-500/10 border border-amber-500/30 text-amber-400' : 'border border-white/[0.08] bg-white/[0.03] text-gray-400 hover:text-white hover:bg-white/[0.06]'}`}>{w.label}</button>
+        ))}
+      </div>
+
+      <div className="flex flex-wrap gap-1 mb-3">
+        {PRICE_TIERS.map((t) => (
+          <button key={t.name} onClick={() => setPricePerBf(t.defaultPrice.toString())} className="px-2 py-0.5 text-xs rounded border border-white/[0.08] bg-white/[0.03] text-gray-400 hover:text-white hover:bg-white/[0.06]">{t.name}</button>
+        ))}
+      </div>
+
+      <div className="grid grid-cols-2 gap-2 mb-3">
+        <input type="text" placeholder="Waste %" value={wastePercent} onChange={(e) => setWastePercent(e.target.value)} className="input-modern" />
+        <input type="text" placeholder="Tax %" value={taxPercent} onChange={(e) => setTaxPercent(e.target.value)} className="input-modern" />
+      </div>
+
+      <button onClick={handleCalculate} className="btn-gold w-full">Calculate Cost</button>
+
+      {result && !result.error && (
+        <div className="space-y-3 mt-3">
+          <div className="result-card-highlight">
+            <span className="text-xs text-amber-400/60">Total Cost</span>
+            <p className="text-3xl font-bold text-amber-400 gold-glow-text">${result.total}</p>
+          </div>
+          <div className="result-card space-y-1 text-sm">
+            <div className="flex justify-between"><span className="text-gray-500">Board Feet</span><span className="text-white">{result.boardFeet} BF</span></div>
+            <div className="flex justify-between"><span className="text-gray-500">Waste ({result.wastePercent}%)</span><span className="text-white">{result.wasteBF} BF</span></div>
+            <div className="flex justify-between"><span className="text-gray-500">Total BF</span><span className="text-white">{result.totalBF} BF</span></div>
+            <div className="flex justify-between"><span className="text-gray-500">Material Cost</span><span className="text-white">${result.subtotal}</span></div>
+            <div className="flex justify-between"><span className="text-gray-500">Waste Cost</span><span className="text-white">${result.wasteCost}</span></div>
+            <div className="flex justify-between"><span className="text-gray-500">Subtotal</span><span className="text-white">${result.subtotalWithWaste}</span></div>
+            {result.tax > 0 && <div className="flex justify-between"><span className="text-gray-500">Tax ({result.taxPercent}%)</span><span className="text-white">${result.tax}</span></div>}
+            <div className="flex justify-between pt-2 border-t border-white/[0.06]"><span className="text-amber-400 font-medium">Effective Price</span><span className="text-amber-400">${result.effectivePriceBF}/BF</span></div>
+          </div>
+        </div>
+      )}
+      {result && result.error && <div className="mt-3 p-4 rounded-lg border border-red-500/20 bg-red-500/[0.04] text-red-300 text-sm">{result.error}</div>}
     </div>
   );
 }

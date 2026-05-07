@@ -1,97 +1,52 @@
 import { useState, useCallback } from 'react';
-import { calculateCompoundMiter, COMMON_SPRING_ANGLES, COMMON_WALL_ANGLES } from '../utils/compoundMiterCalculator';
+import { calculateCompoundMiter } from '../utils/compoundMiterCalculator';
 
 export default function CompoundMiter() {
-  const [wallAngle, setWallAngle] = useState('90');
   const [springAngle, setSpringAngle] = useState('38');
-  const [slope, setSlope] = useState('0');
+  const [wallAngle, setWallAngle] = useState('90');
   const [result, setResult] = useState(null);
 
   const handleCalculate = useCallback(() => {
-    setResult(calculateCompoundMiter(wallAngle, springAngle, slope));
-  }, [wallAngle, springAngle, slope]);
+    setResult(calculateCompoundMiter(springAngle, wallAngle));
+  }, [springAngle, wallAngle]);
 
-  const selectPreset = (type, value) => {
-    if (type === 'wall') setWallAngle(value.toString());
-    if (type === 'spring') setSpringAngle(value.toString());
-    setResult(null);
-  };
+  const springPresets = [38, 45, 52];
+  const wallPresets = [90, 120, 135];
 
   return (
-    <div className="w-full min-h-screen p-3 sm:p-4 lg:p-6 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex flex-col items-center justify-center">
-      <div className="w-full max-w-md">
-        <h2 className="text-responsive-lg sm:text-responsive-xl lg:text-responsive-2xl font-bold mb-1 sm:mb-2 text-white text-center">Compound Miter</h2>
-        <p className="text-responsive-xs text-gray-400 mb-3 sm:mb-4 text-center">Saw settings for crown molding & compound joinery</p>
-
-        <div className="space-y-3">
-          {/* Wall angle */}
-          <div>
-            <label className="block text-xs text-gray-400 mb-1">Wall Corner Angle</label>
-            <input type="text" value={wallAngle} onChange={(e) => setWallAngle(e.target.value)} placeholder="90" className="input-modern" />
-            <div className="flex flex-wrap gap-1 mt-1">
-              {COMMON_WALL_ANGLES.map((a) => (
-                <button key={a.value} onClick={() => selectPreset('wall', a.value)} className={`px-2 py-0.5 text-xs rounded ${parseFloat(wallAngle) === a.value ? 'bg-purple-500 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}>
-                  {a.label}
-                </button>
-              ))}
-            </div>
+    <div className="w-full max-w-md mx-auto px-4 py-6 sm:py-8">
+      <div className="space-y-3">
+        <div>
+          <span className="text-xs text-gray-500 block mb-1">Spring Angle</span>
+          <div className="flex gap-1 mb-2">
+            {springPresets.map((a) => (
+              <button key={a} onClick={() => setSpringAngle(a.toString())} className={`flex-1 py-1 text-xs rounded ${parseFloat(springAngle) === a ? 'bg-amber-500/10 border border-amber-500/30 text-amber-400' : 'border border-white/[0.08] bg-white/[0.03] text-gray-400 hover:text-white hover:bg-white/[0.06]'}`}>{a}°</button>
+            ))}
           </div>
-
-          {/* Spring angle */}
-          <div>
-            <label className="block text-xs text-gray-400 mb-1">Crown Spring Angle</label>
-            <input type="text" value={springAngle} onChange={(e) => setSpringAngle(e.target.value)} placeholder="38" className="input-modern" />
-            <div className="flex flex-wrap gap-1 mt-1">
-              {COMMON_SPRING_ANGLES.map((a) => (
-                <button key={a.value} onClick={() => selectPreset('spring', a.value)} className={`px-2 py-0.5 text-xs rounded ${parseFloat(springAngle) === a.value ? 'bg-purple-500 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}>
-                  {a.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Slope */}
-          <div>
-            <label className="block text-xs text-gray-400 mb-1">Roof Slope (0° for flat ceiling)</label>
-            <input type="text" value={slope} onChange={(e) => setSlope(e.target.value)} placeholder="0" className="input-modern" />
-          </div>
+          <input type="text" placeholder="Custom spring angle" value={springAngle} onChange={(e) => setSpringAngle(e.target.value)} className="input-modern" />
         </div>
-
-        <button onClick={handleCalculate} className="w-full mt-3 sm:mt-4 lg:mt-5 bg-gradient-to-r from-purple-500 to-indigo-600 text-white py-2 sm:py-3 lg:py-4 rounded hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-all font-semibold text-sm sm:text-base lg:text-lg">
-          Calculate
-        </button>
-
-        {result && (
-          <div className="mt-3 sm:mt-4 lg:mt-5 space-y-3">
-            <div className="p-4 sm:p-5 bg-gradient-to-br from-purple-500 to-indigo-600 rounded shadow-lg border border-purple-400 text-white">
-              <p className="text-xs text-white/70 mb-2">Saw Settings</p>
-              <div className="flex gap-4">
-                <div className="flex-1 text-center">
-                  <p className="text-xs text-white/60">Miter</p>
-                  <p className="text-responsive-xl font-bold">{result.miterAngle}°</p>
-                </div>
-                <div className="flex-1 text-center">
-                  <p className="text-xs text-white/60">Bevel</p>
-                  <p className="text-responsive-xl font-bold">{result.bevelAngle}°</p>
-                </div>
-              </div>
-              <p className="text-xs text-white/60 mt-2 text-center">{result.sawSettings.tip}</p>
-            </div>
-
-            <div className="p-3 sm:p-4 bg-gray-700 bg-opacity-50 rounded shadow border border-gray-600 text-white">
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-400">Wall</span><span>{result.wallAngle}°</span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-400">Spring</span><span>{result.springAngle}°</span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-400">Slope</span><span>{result.slope}°</span>
-              </div>
-            </div>
+        <div>
+          <span className="text-xs text-gray-500 block mb-1">Wall Angle</span>
+          <div className="flex gap-1 mb-2">
+            {wallPresets.map((a) => (
+              <button key={a} onClick={() => setWallAngle(a.toString())} className={`flex-1 py-1 text-xs rounded ${parseFloat(wallAngle) === a ? 'bg-amber-500/10 border border-amber-500/30 text-amber-400' : 'border border-white/[0.08] bg-white/[0.03] text-gray-400 hover:text-white hover:bg-white/[0.06]'}`}>{a}°</button>
+            ))}
           </div>
-        )}
+          <input type="text" placeholder="Custom wall angle" value={wallAngle} onChange={(e) => setWallAngle(e.target.value)} className="input-modern" />
+        </div>
+        <button onClick={handleCalculate} className="btn-gold w-full">Calculate Saw Settings</button>
       </div>
+
+      {result && !result.error && (
+        <div className="space-y-3 mt-3">
+          <div className="grid grid-cols-2 gap-2">
+            <div className="result-card-highlight"><span className="text-xs text-amber-400/60">Miter Angle</span><p className="text-xl font-bold text-amber-400">{result.miterAngle}°</p></div>
+            <div className="result-card-highlight"><span className="text-xs text-amber-400/60">Bevel Angle</span><p className="text-xl font-bold text-amber-400">{result.bevelAngle}°</p></div>
+          </div>
+          <div className="result-card text-xs text-gray-400 text-center">Set miter to {result.miterAngle}° and bevel to {result.bevelAngle}°</div>
+        </div>
+      )}
+      {result && result.error && <div className="mt-3 p-4 rounded-lg border border-red-500/20 bg-red-500/[0.04] text-red-300 text-sm">{result.error}</div>}
     </div>
   );
 }
