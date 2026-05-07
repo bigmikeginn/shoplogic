@@ -105,9 +105,12 @@ export default function ModuleMenu({ onSelectModule }) {
             <span className="text-[10px] sm:text-xs font-medium tracking-[0.2em] uppercase text-gray-500">Workshop Tools</span>
             <div className="w-1.5 h-1.5 rounded-full bg-amber-500 gold-pulse" style={{ animationDelay: '1.5s' }} />
           </div>
-        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-1 tracking-tight">
-          ShopLogic<span className="text-amber-500 gold-glow-text">.</span>
-        </h1>
+          <div className="flex items-center justify-center gap-3 mb-2">
+            <img src="/logo.svg" alt="ShopLogic" className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12" style={{ filter: 'drop-shadow(0 0 12px rgba(251, 191, 36, 0.3))' }} />
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white tracking-tight">
+              ShopLogic<span className="text-amber-500 gold-glow-text">.</span>
+            </h1>
+          </div>
         <p className="text-xs sm:text-sm text-gray-400 max-w-md mx-auto">
           Precision calculators for woodworking, metalworking & automotive
         </p>
