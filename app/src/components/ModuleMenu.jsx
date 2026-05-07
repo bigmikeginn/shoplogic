@@ -106,7 +106,7 @@ export default function ModuleMenu({ onSelectModule }) {
             <div className="w-1.5 h-1.5 rounded-full bg-amber-500 gold-pulse" style={{ animationDelay: '1.5s' }} />
           </div>
           <div className="flex flex-col items-center gap-4 mb-6">
-            <img src="/logo.png" alt="ShopLogic" className="w-56 h-56 sm:w-64 sm:h-64 lg:w-72 lg:h-72 object-contain" />
+            <img src="/logo.png" alt="ShopLogic" className="w-[448px] h-[448px] sm:w-[512px] sm:h-[512px] lg:w-[576px] lg:h-[576px] object-contain" />
           </div>
         <p className="text-xs sm:text-sm text-gray-400 max-w-md mx-auto">
           Precision calculators for woodworking, metalworking & automotive
