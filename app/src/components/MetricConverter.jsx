@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { convert, getConversionsByCategory } from '../utils/converter';
-import CustomSelect from './CustomSelect';
 
 const CATEGORIES = ['length', 'area', 'volume', 'weight', 'temperature'];
 
@@ -35,9 +34,9 @@ export default function MetricConverter() {
           ))}
         </div>
 
-        <CustomSelect value={selectedConversion} onChange={(e) => setSelectedConversion(parseInt(e.target.value))} className="mb-3">
+        <select value={selectedConversion} onChange={(e) => setSelectedConversion(parseInt(e.target.value))} className="input-modern mb-3">
           {conversions.map((conv, idx) => <option key={idx} value={idx}>{conv.label}</option>)}
-        </CustomSelect>
+        </select>
 
         <div className="flex gap-2 mb-3">
           <input type="number" step="0.01" placeholder="Value" value={value} onChange={(e) => setValue(e.target.value)} className="input-modern flex-1" />

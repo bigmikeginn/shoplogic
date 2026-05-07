@@ -125,6 +125,17 @@ button, input, select, textarea {
     @apply text-gray-500/50;
     letter-spacing: 0.01em;
   }
+  select.input-modern {
+    color-scheme: dark;
+  }
+  select.input-modern option {
+    background: #1a1a23;
+    color: white;
+  }
+  select.input-modern option:checked {
+    background: linear-gradient(rgba(245, 158, 11, 0.2), rgba(245, 158, 11, 0.2));
+    background-color: rgba(245, 158, 11, 0.3);
+  }
 
   .btn-gold {
     @apply relative px-6 py-2.5 bg-gradient-to-br from-amber-400 via-amber-500 to-amber-600 text-gray-900 font-semibold rounded-xl text-sm;

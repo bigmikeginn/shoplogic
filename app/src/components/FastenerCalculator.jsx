@@ -1,6 +1,5 @@
 import { useState, useCallback } from 'react';
 import { getPilotHoleSize, getRecommendation, SCREW_SIZES, APPLICATIONS } from '../utils/fastenerCalculator';
-import CustomSelect from './CustomSelect';
 
 export default function FastenerCalculator() {
   const [screwSize, setScrewSize] = useState('');
@@ -29,19 +28,19 @@ export default function FastenerCalculator() {
           ))}
         </div>
 
-        <CustomSelect value={screwSize} onChange={(e) => setScrewSize(e.target.value)}>
+        <select value={screwSize} onChange={(e) => setScrewSize(e.target.value)} className="input-modern">
           <option value="">Select screw size...</option>
           {Object.keys(SCREW_SIZES).map((s) => (
             <option key={s} value={s}>{s}</option>
           ))}
-        </CustomSelect>
+        </select>
 
-        <CustomSelect value={application} onChange={(e) => setApplication(e.target.value)}>
+        <select value={application} onChange={(e) => setApplication(e.target.value)} className="input-modern">
           <option value="">Select application (optional)...</option>
           {Object.keys(APPLICATIONS).map((a) => (
             <option key={a} value={a}>{a}</option>
           ))}
-        </CustomSelect>
+        </select>
 
         <button onClick={handleCalculate} className="btn-gold w-full">Calculate</button>
       </div>
