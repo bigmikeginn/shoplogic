@@ -11,8 +11,23 @@ export default function ToolsBackground() {
           <style>
             {`
               .tool-icon {
-                opacity: 0.03;
+                opacity: 0.04;
+                color: currentColor;
                 transition: opacity 0.3s ease;
+              }
+
+              @media (prefers-color-scheme: light) {
+                .tool-icon {
+                  opacity: 0.08;
+                }
+              }
+
+              [data-theme="dark"] .tool-icon {
+                opacity: 0.04;
+              }
+
+              [data-theme="light"] .tool-icon {
+                opacity: 0.08;
               }
 
               @keyframes float-slow {
