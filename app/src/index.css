@@ -91,16 +91,26 @@ button, input, select, textarea {
 
   .glass-card {
     @apply rounded-2xl border border-white/[0.05] bg-white/[0.02] backdrop-blur-2xl;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 0 4px 16px rgba(0, 0, 0, 0.15), 0 0 0 0.5px rgba(255, 255, 255, 0.04) inset;
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.2),
+      0 4px 16px rgba(0, 0, 0, 0.15),
+      0 0 20px rgba(245, 158, 11, 0.02),
+      0 0 0 0.5px rgba(255, 255, 255, 0.04) inset;
   }
 
   .glass-card-hover {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .glass-card-hover:hover {
-    transform: translateY(-2px);
-    border-color: rgba(245, 158, 11, 0.2);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25), 0 0 60px rgba(245, 158, 11, 0.04), 0 0 0 0.5px rgba(255, 255, 255, 0.06) inset;
+    transform: translateY(-4px);
+    border-color: rgba(245, 158, 11, 0.25);
+    box-shadow:
+      0 4px 8px rgba(0, 0, 0, 0.4),
+      0 12px 32px rgba(0, 0, 0, 0.3),
+      0 0 80px rgba(245, 158, 11, 0.08),
+      0 0 40px rgba(245, 158, 11, 0.04),
+      0 0 0 0.5px rgba(255, 255, 255, 0.08) inset;
+    background: rgba(255, 255, 255, 0.025);
   }
 
   .gold-glow {
@@ -114,12 +124,17 @@ button, input, select, textarea {
   .input-modern {
     @apply w-full px-3.5 py-2.5 bg-white/[0.03] text-white text-sm border border-white/[0.06] rounded-xl placeholder-gray-500/70 outline-none;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.15),
+      0 0 12px rgba(245, 158, 11, 0.02);
   }
   .input-modern:focus {
-    border-color: rgba(245, 158, 11, 0.35);
-    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.06), 0 1px 2px rgba(0, 0, 0, 0.2);
-    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(245, 158, 11, 0.4);
+    box-shadow:
+      0 0 0 3px rgba(245, 158, 11, 0.08),
+      0 0 24px rgba(245, 158, 11, 0.12),
+      0 1px 2px rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.045);
   }
   .input-modern::placeholder {
     @apply text-gray-500/50;
@@ -139,8 +154,12 @@ button, input, select, textarea {
 
   .btn-gold {
     @apply relative px-6 py-2.5 bg-gradient-to-br from-amber-400 via-amber-500 to-amber-600 text-gray-900 font-semibold rounded-xl text-sm;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.15), 0 0 0 0.5px rgba(245, 158, 11, 0.3) inset, 0 1px 0 rgba(255, 255, 255, 0.15) inset;
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow:
+      0 2px 8px rgba(245, 158, 11, 0.2),
+      0 0 20px rgba(245, 158, 11, 0.1),
+      0 0 0 0.5px rgba(245, 158, 11, 0.3) inset,
+      0 1px 0 rgba(255, 255, 255, 0.2) inset;
     overflow: hidden;
     letter-spacing: -0.01em;
   }
@@ -151,30 +170,43 @@ button, input, select, textarea {
     left: -100%;
     width: 60%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
-    transition: left 0.5s ease;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+    transition: left 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
   .btn-gold:hover {
-    transform: translateY(-1.5px);
-    box-shadow: 0 4px 20px rgba(245, 158, 11, 0.3), 0 0 0 0.5px rgba(245, 158, 11, 0.4) inset, 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    transform: translateY(-2px) scale(1.02);
+    box-shadow:
+      0 8px 24px rgba(245, 158, 11, 0.35),
+      0 0 40px rgba(245, 158, 11, 0.15),
+      0 0 0 0.5px rgba(245, 158, 11, 0.5) inset,
+      0 1px 0 rgba(255, 255, 255, 0.3) inset;
   }
   .btn-gold:hover::after {
     left: 120%;
   }
   .btn-gold:active {
-    transform: translateY(0);
-    box-shadow: 0 1px 4px rgba(245, 158, 11, 0.2);
+    transform: translateY(0) scale(0.98);
+    box-shadow:
+      0 2px 8px rgba(245, 158, 11, 0.2),
+      0 0 0 0.5px rgba(245, 158, 11, 0.3) inset;
   }
 
   .result-card {
     @apply rounded-2xl border border-white/[0.05] bg-white/[0.02] backdrop-blur-2xl p-5;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 0 4px 16px rgba(0, 0, 0, 0.1);
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.2),
+      0 4px 16px rgba(0, 0, 0, 0.15),
+      0 0 30px rgba(245, 158, 11, 0.02);
   }
 
   .result-card-highlight {
-    @apply rounded-2xl border border-amber-500/[0.12] p-5 backdrop-blur-2xl;
-    background: linear-gradient(135deg, rgba(245, 158, 11, 0.04) 0%, rgba(245, 158, 11, 0.01) 100%);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 0 4px 20px rgba(0, 0, 0, 0.15), 0 0 40px rgba(245, 158, 11, 0.03);
+    @apply rounded-2xl border border-amber-500/[0.15] p-5 backdrop-blur-2xl;
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.06) 0%, rgba(245, 158, 11, 0.01) 100%);
+    box-shadow:
+      0 2px 4px rgba(0, 0, 0, 0.2),
+      0 8px 24px rgba(0, 0, 0, 0.2),
+      0 0 60px rgba(245, 158, 11, 0.06),
+      0 0 40px rgba(245, 158, 11, 0.03);
   }
 
   .px-responsive { @apply px-3 sm:px-4 lg:px-6; }
@@ -197,16 +229,38 @@ button, input, select, textarea {
 
   .scrollbar-styled {
     scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.05) transparent;
+    scrollbar-color: rgba(255, 255, 255, 0.08) transparent;
   }
-  .scrollbar-styled::-webkit-scrollbar { width: 4px; height: 4px; }
+  .scrollbar-styled::-webkit-scrollbar { width: 6px; height: 6px; }
   .scrollbar-styled::-webkit-scrollbar-track { background: transparent; }
   .scrollbar-styled::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.06);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
     border-radius: 4px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
   }
   .scrollbar-styled::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.12);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.08));
+    background-clip: padding-box;
+  }
+
+  .glow-sm {
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.08);
+  }
+
+  .glow-md {
+    box-shadow: 0 0 40px rgba(245, 158, 11, 0.12);
+  }
+
+  .glow-lg {
+    box-shadow: 0 0 60px rgba(245, 158, 11, 0.15);
+  }
+
+  .shadow-elevated {
+    box-shadow:
+      0 4px 6px rgba(0, 0, 0, 0.07),
+      0 10px 13px rgba(0, 0, 0, 0.1),
+      0 15px 35px rgba(0, 0, 0, 0.1);
   }
 }
 
