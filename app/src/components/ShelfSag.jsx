@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { calculateShelfSag, SHELF_MATERIALS } from '../utils/shelfSagCalculator';
+import CustomSelect from './CustomSelect';
 
 export default function ShelfSag() {
   const [material, setMaterial] = useState('');
@@ -16,10 +17,10 @@ export default function ShelfSag() {
   return (
     <div className="w-full max-w-md mx-auto px-4 py-6 sm:py-8">
       <div className="space-y-3">
-        <select value={material} onChange={(e) => setMaterial(e.target.value)} className="input-modern">
+        <CustomSelect value={material} onChange={(e) => setMaterial(e.target.value)}>
           <option value="">Select material...</option>
           {SHELF_MATERIALS.map((m) => <option key={m.name} value={m.name}>{m.name}</option>)}
-        </select>
+        </CustomSelect>
         <div className="grid grid-cols-2 gap-2">
           <input type="text" placeholder="Thickness (in)" value={thickness} onChange={(e) => setThickness(e.target.value)} className="input-modern" />
           <input type="text" placeholder="Depth (in)" value={depth} onChange={(e) => setDepth(e.target.value)} className="input-modern" />

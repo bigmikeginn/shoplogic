@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { convertTorque, TORQUE_UNITS, TORQUE_PRESETS } from '../utils/torqueConverter';
+import CustomSelect from './CustomSelect';
 
 export default function TorqueConverter() {
   const [value, setValue] = useState('');
@@ -14,9 +15,11 @@ export default function TorqueConverter() {
     <div className="w-full max-w-md mx-auto px-4 py-6 sm:py-8">
       <div className="flex gap-2 mb-3">
         <input type="text" placeholder="Value" value={value} onChange={(e) => setValue(e.target.value)} className="flex-1 input-modern" />
-        <select value={fromUnit} onChange={(e) => setFromUnit(e.target.value)} className="w-24 p-2.5 rounded-lg border border-white/[0.08] bg-white/[0.03] text-white text-sm focus:outline-none focus:border-amber-500/40">
-          {TORQUE_UNITS.map(u => <option key={u} value={u}>{u}</option>)}
-        </select>
+        <div className="w-24">
+          <CustomSelect value={fromUnit} onChange={(e) => setFromUnit(e.target.value)}>
+            {TORQUE_UNITS.map(u => <option key={u} value={u}>{u}</option>)}
+          </CustomSelect>
+        </div>
       </div>
 
       <div className="flex flex-wrap gap-1 mb-3">

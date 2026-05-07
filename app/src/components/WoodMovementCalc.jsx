@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import { calculateSeasonalMovement, SEASONAL_RH } from '../utils/woodMovement';
 import { WOOD_DATABASE } from '../utils/woodDatabase';
+import CustomSelect from './CustomSelect';
 
 export default function WoodMovementCalc() {
   const [species, setSpecies] = useState('');
@@ -17,12 +18,12 @@ export default function WoodMovementCalc() {
   return (
     <div className="w-full max-w-md mx-auto px-4 py-6 sm:py-8">
       <div className="space-y-3">
-        <select value={species} onChange={(e) => setSpecies(e.target.value)} className="input-modern">
+        <CustomSelect value={species} onChange={(e) => setSpecies(e.target.value)}>
           <option value="">Select species...</option>
           {WOOD_DATABASE.map((s) => (
             <option key={s.name} value={s.name}>{s.name}</option>
           ))}
-        </select>
+        </CustomSelect>
 
         <div className="flex rounded-lg overflow-hidden border border-white/[0.08]">
           {['tangential', 'radial'].map((g) => (
@@ -38,11 +39,11 @@ export default function WoodMovementCalc() {
 
         <input type="text" placeholder="Board width (in)" value={width} onChange={(e) => setWidth(e.target.value)} className="input-modern" />
 
-        <select value={climate} onChange={(e) => setClimate(e.target.value)} className="input-modern">
+        <CustomSelect value={climate} onChange={(e) => setClimate(e.target.value)}>
           {Object.keys(SEASONAL_RH).map((z) => (
             <option key={z} value={z}>{z}</option>
           ))}
-        </select>
+        </CustomSelect>
 
         <button onClick={handleCalculate} className="btn-gold w-full">Calculate Movement</button>
       </div>
