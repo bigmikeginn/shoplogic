@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { solveTriangle, SOLVE_MODES } from '../utils/triangleSolver';
+import TriangleSolverIllustration from './TriangleSolverIllustration';
 
 export default function TriangleSolver() {
   const [mode, setMode] = useState('sss');
@@ -68,6 +69,7 @@ export default function TriangleSolver() {
       )}
 
       {result && result.error && <div className="mt-3 p-4 rounded-lg border border-red-500/20 bg-red-500/[0.04] text-red-300 text-sm">{result.error}</div>}
+      <TriangleSolverIllustration />
     </div>
   );
 }

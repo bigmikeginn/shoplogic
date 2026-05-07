@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { calculateBoltCircle, COMMON_PATTERNS } from '../utils/boltCircleCalculator';
+import BoltCircleIllustration from './BoltCircleIllustration';
 
 export default function BoltCircle() {
   const [holes, setHoles] = useState('');
@@ -52,6 +53,7 @@ export default function BoltCircle() {
         </div>
       )}
       {result && result.error && <div className="mt-3 p-4 rounded-lg border border-red-500/20 bg-red-500/[0.04] text-red-300 text-sm">{result.error}</div>}
+      <BoltCircleIllustration />
     </div>
   );
 }

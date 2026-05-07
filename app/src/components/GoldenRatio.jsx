@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { calculateGoldenLinear, calculateGoldenArea, decimalToFractionString } from '../utils/goldenRatio';
+import GoldenRatioIllustration from './GoldenRatioIllustration';
 
 export default function GoldenRatio() {
   const [input1, setInput1] = useState('');
@@ -54,6 +55,7 @@ export default function GoldenRatio() {
       {input1 && !parseFloat(input1) && (
         <div className="mt-3 p-4 rounded-lg border border-red-500/20 bg-red-500/[0.04] text-red-300 text-sm">Enter a valid number.</div>
       )}
+      <GoldenRatioIllustration />
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { calculateTapDrill, SAE_SIZES, METRIC_SIZES, THREAD_STANDARDS } from '../utils/tapDrillReference';
+import TapDrillIllustration from './TapDrillIllustration';
 
 export default function TapDrill() {
   const [standard, setStandard] = useState('SAE (Imperial)');
@@ -56,6 +57,7 @@ export default function TapDrill() {
         </div>
       )}
       {result && result.error && <div className="mt-3 p-4 rounded-lg border border-red-500/20 bg-red-500/[0.04] text-red-300 text-sm">{result.error}</div>}
+      <TapDrillIllustration />
     </div>
   );
 }

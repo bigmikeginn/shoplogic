@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { calculateShelfSag, SHELF_MATERIALS } from '../utils/shelfSagCalculator';
+import ShelfSagIllustration from './ShelfSagIllustration';
 
 export default function ShelfSag() {
   const [material, setMaterial] = useState('');
@@ -54,6 +55,7 @@ export default function ShelfSag() {
         </div>
       )}
       {result && result.error && <div className="mt-3 p-4 rounded-lg border border-red-500/20 bg-red-500/[0.04] text-red-300 text-sm">{result.error}</div>}
+      <ShelfSagIllustration />
     </div>
   );
 }

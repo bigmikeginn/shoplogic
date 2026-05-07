@@ -2,6 +2,7 @@ import { useState } from 'react';
 import {
   calculateDovetailSpacing, calculateMortiseSpacing, calculateTenonSpacing, calculateShelfPinSpacing,
 } from '../utils/joinerySpacing';
+import JoinerySpacingIllustration from './JoinerySpacingIllustration';
 
 export default function JoinerySpacing() {
   const [type, setType] = useState('dovetail');
@@ -63,6 +64,7 @@ export default function JoinerySpacing() {
         </div>
       )}
       {result && result.error && <div className="mt-3 p-4 rounded-lg border border-red-500/20 bg-red-500/[0.04] text-red-300 text-sm">{result.error}</div>}
+      <JoinerySpacingIllustration />
     </div>
   );
 }
