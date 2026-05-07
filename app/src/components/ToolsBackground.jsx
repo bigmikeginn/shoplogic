@@ -125,7 +125,7 @@ export default function ToolsBackground() {
           <rect x="-25" y="-8" width="50" height="16" fill="none" stroke="currentColor" strokeWidth="2" />
           <rect x="-8" y="8" width="16" height="30" fill="none" stroke="currentColor" strokeWidth="2" />
           {[...Array(5)].map((_, i) => (
-            <line key={i} x1={-20 + i * 10} y1="-7" x2={-20 + i * 10} y2="-2} stroke="currentColor" strokeWidth="1" />
+            <line key={i} x1={-20 + i * 10} y1="-7" x2={-20 + i * 10} y2="-2" stroke="currentColor" strokeWidth="1" />
           ))}
         </g>
 
