@@ -1,51 +1,64 @@
 export default function BoardFeetIllustration() {
   return (
     <div className="mt-8 pt-8 border-t border-[var(--border-light)]">
-      <svg viewBox="0 0 400 300" className="w-full max-w-md mx-auto">
+      <svg viewBox="0 0 500 350" className="w-full max-w-2xl mx-auto">
         {/* Title */}
-        <text x="200" y="25" fontSize="14" fontWeight="600" textAnchor="middle" fill="var(--text-primary)">
+        <text x="250" y="25" fontSize="14" fontWeight="600" textAnchor="middle" fill="var(--text-primary)">
           How Board Feet Works
         </text>
 
         {/* 3D board illustration */}
         {/* Front face */}
-        <rect x="80" y="100" width="160" height="90" fill="color-mix(in srgb, var(--accent) 15%, transparent)" stroke="var(--accent)" strokeWidth="2"/>
+        <rect x="100" y="80" width="160" height="90" fill="color-mix(in srgb, var(--accent) 15%, transparent)" stroke="var(--accent)" strokeWidth="2"/>
 
         {/* Top face (3D perspective) */}
-        <polygon points="80,100 95,85 255,85 240,100" fill="color-mix(in srgb, var(--accent) 25%, transparent)" stroke="var(--accent)" strokeWidth="2"/>
+        <polygon points="100,80 115,65 275,65 260,80" fill="color-mix(in srgb, var(--accent) 25%, transparent)" stroke="var(--accent)" strokeWidth="2"/>
 
         {/* Right face (3D perspective) */}
-        <polygon points="240,100 255,85 255,175 240,190" fill="color-mix(in srgb, var(--accent) 10%, transparent)" stroke="var(--accent)" strokeWidth="2"/>
+        <polygon points="260,80 275,65 275,155 260,170" fill="color-mix(in srgb, var(--accent) 10%, transparent)" stroke="var(--accent)" strokeWidth="2"/>
 
-        {/* Dimension lines - Width */}
+        {/* Dimension lines - Width (bottom) */}
         <g>
-          <line x1="80" y1="210" x2="240" y2="210" stroke="var(--text-secondary)" strokeWidth="1" strokeDasharray="3,3"/>
-          <circle cx="80" cy="210" r="3" fill="var(--text-secondary)"/>
-          <circle cx="240" cy="210" r="3" fill="var(--text-secondary)"/>
-          <text x="160" y="230" fontSize="12" fill="var(--text-secondary)" fontWeight="500" textAnchor="middle">Width</text>
+          <line x1="100" y1="190" x2="260" y2="190" stroke="var(--text-secondary)" strokeWidth="1" strokeDasharray="3,3"/>
+          <circle cx="100" cy="190" r="3" fill="var(--text-secondary)"/>
+          <circle cx="260" cy="190" r="3" fill="var(--text-secondary)"/>
+          <text x="180" y="215" fontSize="12" fill="var(--text-secondary)" fontWeight="500" textAnchor="middle">Width</text>
         </g>
 
-        {/* Dimension lines - Height (Thickness) */}
+        {/* Dimension lines - Thickness (left) */}
         <g>
-          <line x1="50" y1="100" x2="50" y2="190" stroke="var(--text-secondary)" strokeWidth="1" strokeDasharray="3,3"/>
-          <circle cx="50" cy="100" r="3" fill="var(--text-secondary)"/>
-          <circle cx="50" cy="190" r="3" fill="var(--text-secondary)"/>
-          <text x="25" y="148" fontSize="12" fill="var(--text-secondary)" fontWeight="500" textAnchor="middle">
-            <tspan x="25" dy="0">Thick</tspan>
-            <tspan x="25" dy="14">ness</tspan>
+          <line x1="70" y1="80" x2="70" y2="170" stroke="var(--text-secondary)" strokeWidth="1" strokeDasharray="3,3"/>
+          <circle cx="70" cy="80" r="3" fill="var(--text-secondary)"/>
+          <circle cx="70" cy="170" r="3" fill="var(--text-secondary)"/>
+          <text x="40" y="130" fontSize="12" fill="var(--text-secondary)" fontWeight="500" textAnchor="middle">
+            <tspan x="40" dy="0">Thick</tspan>
+            <tspan x="40" dy="14">ness</tspan>
           </text>
+        </g>
+
+        {/* Dimension lines - Length (right) */}
+        <g>
+          <line x1="290" y1="65" x2="290" y2="155" stroke="var(--text-secondary)" strokeWidth="1" strokeDasharray="3,3"/>
+          <circle cx="290" cy="65" r="3" fill="var(--text-secondary)"/>
+          <circle cx="290" cy="155" r="3" fill="var(--text-secondary)"/>
+          <text x="330" y="115" fontSize="12" fill="var(--text-secondary)" fontWeight="500" textAnchor="start">Length</text>
         </g>
 
         {/* Quantity indicator */}
         <g>
-          <circle cx="320" cy="120" r="25" fill="color-mix(in srgb, var(--accent) 20%, transparent)" stroke="var(--accent)" strokeWidth="2"/>
-          <text x="320" y="128" fontSize="16" fontWeight="700" fill="var(--accent)" textAnchor="middle">Qty</text>
+          <circle cx="400" cy="100" r="28" fill="color-mix(in srgb, var(--accent) 20%, transparent)" stroke="var(--accent)" strokeWidth="2"/>
+          <text x="400" y="108" fontSize="18" fontWeight="700" fill="var(--accent)" textAnchor="middle">Qty</text>
         </g>
 
-        {/* Bottom explanation */}
-        <text x="200" y="270" fontSize="13" fill="var(--text-primary)" textAnchor="middle" fontWeight="600">
-          Board Feet
-        </text>
+        {/* Formula section */}
+        <g>
+          <text x="250" y="250" fontSize="12" fill="var(--text-secondary)" textAnchor="middle" fontFamily="monospace">
+            Qty × Thickness × Width × Length
+          </text>
+          <text x="250" y="275" fontSize="12" fill="var(--text-secondary)" textAnchor="middle" fontFamily="monospace">
+            ÷ 144 = Board Feet
+          </text>
+        </g>
       </svg>
     </div>
   );
