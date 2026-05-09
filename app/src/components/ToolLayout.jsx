@@ -1,8 +1,10 @@
 import ThemeToggle from './ThemeToggle';
+import ToolsBackground from './ToolsBackground';
 
 export default function ToolLayout({ title, description, onBack, children }) {
   return (
     <div className="min-h-screen w-full flex flex-col relative z-10" style={{ backgroundColor: 'var(--bg-primary)' }}>
+      <ToolsBackground />
       {/* Header */}
       <header className="border-b sticky top-0 z-20 backdrop-blur-xl" style={{ borderColor: 'var(--border-light)', backgroundColor: 'color-mix(in srgb, var(--bg-primary) 90%, transparent)' }}>
         <div className="px-5 sm:px-6 lg:px-8 py-2 sm:py-3 flex items-center gap-3">
