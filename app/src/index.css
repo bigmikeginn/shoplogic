@@ -3,31 +3,31 @@
 @tailwind utilities;
 
 :root {
-  --bg-primary: #08080c;
-  --bg-secondary: #1a1a23;
-  --bg-tertiary: #2d2d3d;
-  --text-primary: #e5e7eb;
-  --text-secondary: #9ca3af;
-  --text-muted: #6b7280;
-  --border-light: rgba(255, 255, 255, 0.05);
-  --border-lighter: rgba(255, 255, 255, 0.03);
-  --accent: #f59e0b;
-  --accent-light: rgba(245, 158, 11, 0.1);
-  --accent-lighter: rgba(245, 158, 11, 0.05);
+  --bg-primary: #121318;
+  --bg-secondary: #1f2937;
+  --bg-tertiary: #374151;
+  --text-primary: #f3f4f6;
+  --text-secondary: #d1d5db;
+  --text-muted: #9ca3af;
+  --border-light: rgba(255, 255, 255, 0.08);
+  --border-lighter: rgba(255, 255, 255, 0.04);
+  --accent: #fbbf24;
+  --accent-light: rgba(251, 191, 36, 0.15);
+  --accent-lighter: rgba(251, 191, 36, 0.08);
 }
 
 [data-theme="light"] {
-  --bg-primary: #f5f5f5;
-  --bg-secondary: #ffffff;
-  --bg-tertiary: #f0f0f0;
-  --text-primary: #1f2937;
-  --text-secondary: #4b5563;
-  --text-muted: #9ca3af;
-  --border-light: rgba(0, 0, 0, 0.08);
-  --border-lighter: rgba(0, 0, 0, 0.04);
+  --bg-primary: #f5f6f7;
+  --bg-secondary: #eff0f2;
+  --bg-tertiary: #e8eaed;
+  --text-primary: #111827;
+  --text-secondary: #374151;
+  --text-muted: #6b7280;
+  --border-light: rgba(0, 0, 0, 0.15);
+  --border-lighter: rgba(0, 0, 0, 0.08);
   --accent: #d97706;
-  --accent-light: rgba(217, 119, 6, 0.1);
-  --accent-lighter: rgba(217, 119, 6, 0.05);
+  --accent-light: rgba(217, 119, 6, 0.15);
+  --accent-lighter: rgba(217, 119, 6, 0.08);
 }
 
 * {
@@ -65,8 +65,8 @@ body::before {
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(ellipse 80% 60% at 20% 10%, color-mix(in srgb, var(--accent) 2.5%, transparent) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 70% at 80% 85%, color-mix(in srgb, var(--accent) 2%, transparent) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 60% at 20% 10%, color-mix(in srgb, var(--accent) 3%, transparent) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 70% at 80% 85%, color-mix(in srgb, var(--accent) 3%, transparent) 0%, transparent 60%),
     radial-gradient(ellipse 50% 50% at 50% 50%, rgba(255, 255, 255, 0.008) 0%, transparent 70%);
   pointer-events: none;
   z-index: 0;
@@ -82,22 +82,22 @@ body::before {
   background:
     repeating-linear-gradient(
       45deg,
+      color-mix(in srgb, var(--accent) 6%, transparent) 0px,
+      color-mix(in srgb, var(--accent) 6%, transparent) 1px,
+      transparent 1px,
+      transparent 8px
+    ),
+    repeating-linear-gradient(
+      -45deg,
       color-mix(in srgb, var(--accent) 4%, transparent) 0px,
       color-mix(in srgb, var(--accent) 4%, transparent) 1px,
       transparent 1px,
       transparent 8px
     ),
     repeating-linear-gradient(
-      -45deg,
-      color-mix(in srgb, var(--accent) 2.5%, transparent) 0px,
-      color-mix(in srgb, var(--accent) 2.5%, transparent) 1px,
-      transparent 1px,
-      transparent 8px
-    ),
-    repeating-linear-gradient(
       0deg,
-      color-mix(in srgb, var(--accent) 2%, transparent) 0px,
-      color-mix(in srgb, var(--accent) 2%, transparent) 2px,
+      color-mix(in srgb, var(--accent) 3%, transparent) 0px,
+      color-mix(in srgb, var(--accent) 3%, transparent) 2px,
       transparent 2px,
       transparent 20px
     );
@@ -122,28 +122,48 @@ button, input, select, textarea {
 
   .glass-card {
     @apply rounded-2xl backdrop-blur-2xl;
-    border: 1px solid var(--border-light);
-    background: color-mix(in srgb, var(--bg-secondary) 2%, transparent);
+    border: 1.5px solid var(--border-light);
+    background: color-mix(in srgb, var(--bg-secondary) 12%, transparent);
     box-shadow:
-      0 1px 2px rgba(0, 0, 0, 0.2),
-      0 4px 16px rgba(0, 0, 0, 0.15),
-      0 0 20px color-mix(in srgb, var(--accent) 2%, transparent),
-      0 0 0 0.5px rgba(255, 255, 255, 0.04) inset;
+      0 1px 2px rgba(0, 0, 0, 0.15),
+      0 4px 16px rgba(0, 0, 0, 0.12),
+      0 0 30px color-mix(in srgb, var(--accent) 3%, transparent),
+      0 0 0 0.5px rgba(255, 255, 255, 0.06) inset;
+  }
+
+  [data-theme="light"] .glass-card {
+    background: color-mix(in srgb, var(--bg-secondary) 60%, transparent);
+    border: 1.5px solid var(--border-light);
+    box-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.10),
+      0 4px 12px rgba(0, 0, 0, 0.08),
+      0 0 16px color-mix(in srgb, var(--accent) 2%, transparent),
+      0 0 0 1px rgba(0, 0, 0, 0.05) inset;
   }
 
   .glass-card-hover {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .glass-card-hover:hover {
-    transform: translateY(-4px);
-    border-color: color-mix(in srgb, var(--accent) 25%, transparent);
+    transform: translateY(-6px);
+    border-color: var(--accent);
     box-shadow:
-      0 4px 8px rgba(0, 0, 0, 0.4),
-      0 12px 32px rgba(0, 0, 0, 0.3),
-      0 0 80px color-mix(in srgb, var(--accent) 8%, transparent),
-      0 0 40px color-mix(in srgb, var(--accent) 4%, transparent),
-      0 0 0 0.5px rgba(255, 255, 255, 0.08) inset;
-    background: rgba(255, 255, 255, 0.025);
+      0 8px 16px rgba(0, 0, 0, 0.25),
+      0 16px 40px rgba(0, 0, 0, 0.15),
+      0 0 100px color-mix(in srgb, var(--accent) 12%, transparent),
+      0 0 60px color-mix(in srgb, var(--accent) 6%, transparent),
+      0 0 0 1px rgba(255, 255, 255, 0.12) inset;
+    background: color-mix(in srgb, var(--bg-secondary) 18%, transparent);
+  }
+
+  [data-theme="light"] .glass-card-hover:hover {
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--bg-secondary) 80%, transparent);
+    box-shadow:
+      0 8px 16px rgba(0, 0, 0, 0.15),
+      0 16px 40px rgba(0, 0, 0, 0.10),
+      0 0 60px color-mix(in srgb, var(--accent) 8%, transparent),
+      0 0 30px color-mix(in srgb, var(--accent) 3%, transparent);
   }
 
   .gold-glow {

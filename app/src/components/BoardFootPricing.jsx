@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { calculateCost, WASTE_PRESETS, PRICE_TIERS } from '../utils/boardFootPricing';
+import BFPricingIllustration from './BFPricingIllustration';
 
 export default function BoardFootPricing() {
   const [bf, setBf] = useState('');
@@ -57,6 +58,7 @@ export default function BoardFootPricing() {
         </div>
       )}
       {result && result.error && <div className="mt-3 p-4 rounded-lg border border-red-500/20 bg-red-500/[0.04] text-red-300 text-sm">{result.error}</div>}
+      <BFPricingIllustration />
     </div>
   );
 }

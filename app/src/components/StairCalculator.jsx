@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { calculateStairs } from '../utils/stairCalculator';
+import StairsIllustration from './StairsIllustration';
 
 export default function StairCalculator() {
   const [totalRise, setTotalRise] = useState('');
@@ -46,6 +47,7 @@ export default function StairCalculator() {
         </div>
       )}
       {result && result.error && <div className="mt-3 p-4 rounded-lg border border-red-500/20 bg-red-500/[0.04] text-red-300 text-sm">{result.error}</div>}
+      <StairsIllustration />
     </div>
   );
 }

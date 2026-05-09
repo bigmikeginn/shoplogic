@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { calculateFromStrings } from '../utils/boardFeetCalculator';
+import BoardFeetIllustration from './BoardFeetIllustration';
 
 export default function BoardFeet() {
   const [qty, setQty] = useState('1');
@@ -38,6 +39,8 @@ export default function BoardFeet() {
       {result && result.error && (
         <div className="mt-3 p-4 rounded-lg border border-red-500/20 bg-red-500/[0.04] text-red-300 text-sm">{result.error}</div>
       )}
+
+      <BoardFeetIllustration />
     </div>
   );
 }

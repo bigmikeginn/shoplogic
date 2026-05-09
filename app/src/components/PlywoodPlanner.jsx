@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { packParts } from '../utils/binPacker';
 import SheetVisualization from './SheetVisualization';
+import PlywoodPlannerIllustration from './PlywoodPlannerIllustration';
 
 const COLORS = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F7DC6F'];
 
@@ -83,6 +84,7 @@ export default function PlywoodPlanner() {
           )}
         </div>
       </div>
+      <PlywoodPlannerIllustration />
     </div>
   );
 }

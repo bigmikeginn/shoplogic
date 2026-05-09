@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { calculateCompoundMiter } from '../utils/compoundMiterCalculator';
+import CompoundMiterIllustration from './CompoundMiterIllustration';
 
 export default function CompoundMiter() {
   const [springAngle, setSpringAngle] = useState('38');
@@ -47,6 +48,7 @@ export default function CompoundMiter() {
         </div>
       )}
       {result && result.error && <div className="mt-3 p-4 rounded-lg border border-red-500/20 bg-red-500/[0.04] text-red-300 text-sm">{result.error}</div>}
+      <CompoundMiterIllustration />
     </div>
   );
 }

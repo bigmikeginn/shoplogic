@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { calculateGearRatio, calculateOutputRPM, calculateSpeed } from '../utils/gearRatioCalculator';
+import GearRatioIllustration from './GearRatioIllustration';
 
 export default function GearRatio() {
   const [driveTeeth, setDriveTeeth] = useState('');
@@ -79,6 +80,7 @@ export default function GearRatio() {
       {(ratioResult?.error || rpmResult?.error || speedResult?.error) && (
         <div className="mt-3 p-4 rounded-lg border border-red-500/20 bg-red-500/[0.04] text-red-300 text-sm">{ratioResult?.error || rpmResult?.error || speedResult?.error}</div>
       )}
+      <GearRatioIllustration />
     </div>
   );
 }

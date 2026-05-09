@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { addPart, generateCutList } from '../utils/cutListGenerator';
+import CutListIllustration from './CutListIllustration';
 
 export default function CutListGenerator() {
   const [parts, setParts] = useState([
@@ -71,6 +72,7 @@ export default function CutListGenerator() {
         </div>
       )}
       {result && result.error && <div className="mt-3 p-4 rounded-lg border border-red-500/20 bg-red-500/[0.04] text-red-300 text-sm">{result.error}</div>}
+      <CutListIllustration />
     </div>
   );
 }

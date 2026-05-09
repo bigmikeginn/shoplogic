@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { getPilotHoleSize, getRecommendation, SCREW_SIZES, APPLICATIONS } from '../utils/fastenerCalculator';
+import FastenersIllustration from './FastenersIllustration';
 
 export default function FastenerCalculator() {
   const [screwSize, setScrewSize] = useState('');
@@ -71,6 +72,7 @@ export default function FastenerCalculator() {
           Please select a screw size.
         </div>
       )}
+      <FastenersIllustration />
     </div>
   );
 }

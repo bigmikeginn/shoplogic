@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { convertTorque, TORQUE_UNITS, TORQUE_PRESETS } from '../utils/torqueConverter';
+import TorqueIllustration from './TorqueIllustration';
 
 export default function TorqueConverter() {
   const [value, setValue] = useState('');
@@ -40,6 +41,7 @@ export default function TorqueConverter() {
         </div>
       )}
       {result && result.error && <div className="mt-3 p-4 rounded-lg border border-red-500/20 bg-red-500/[0.04] text-red-300 text-sm">{result.error}</div>}
+      <TorqueIllustration />
     </div>
   );
 }

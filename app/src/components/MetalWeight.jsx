@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { calculateMetalWeight, METAL_DENSITIES, STOCK_TYPES } from '../utils/metalWeightCalculator';
+import MetalWeightIllustration from './MetalWeightIllustration';
 
 export default function MetalWeight() {
   const [stockType, setStockType] = useState('plate');
@@ -52,6 +53,7 @@ export default function MetalWeight() {
         </div>
       )}
       {result && result.error && <div className="mt-3 p-4 rounded-lg border border-red-500/20 bg-red-500/[0.04] text-red-300 text-sm">{result.error}</div>}
+      <MetalWeightIllustration />
     </div>
   );
 }

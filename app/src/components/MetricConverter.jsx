@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { convert, getConversionsByCategory } from '../utils/converter';
+import MetricConverterIllustration from './MetricConverterIllustration';
 
 const CATEGORIES = ['length', 'area', 'volume', 'weight', 'temperature'];
 
@@ -59,6 +60,7 @@ export default function MetricConverter() {
           </div>
         )}
       </div>
+      <MetricConverterIllustration />
     </div>
   );
 }

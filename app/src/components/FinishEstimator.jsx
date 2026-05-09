@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { calculateSurfaceArea, calculateFinish, FINISH_PRESETS } from '../utils/finishCalculator';
+import FinishEstimatorIllustration from './FinishEstimatorIllustration';
 
 const FURNITURE_TYPES = {
   table: {
@@ -119,6 +120,7 @@ export default function FinishEstimator() {
           </div>
         )}
       </div>
+      <FinishEstimatorIllustration />
     </div>
   );
 }

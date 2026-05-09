@@ -1,7 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { getModulesByCategory, CATEGORIES } from '../utils/moduleConfig';
 import { MODULE_ICONS } from './Icons';
-import ToolsBackground from './ToolsBackground';
 import ThemeToggle from './ThemeToggle';
 
 function loadFavorites() {
@@ -76,12 +75,12 @@ export default function ModuleMenu({ onSelectModule }) {
         </div>
 
         {/* Title */}
-        <h3 className="text-xs sm:text-sm font-semibold text-white mb-0.5 group-hover:text-amber-400 transition-colors duration-200">
+        <h3 className="text-xs sm:text-sm font-semibold mb-0.5 group-hover:text-amber-400 transition-colors duration-200" style={{ color: 'var(--text-primary)' }}>
           {module.title}
         </h3>
 
         {/* Description */}
-        <p className="text-[10px] sm:text-[11px] text-gray-500 leading-relaxed">
+        <p className="text-[10px] sm:text-[11px] leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
           {module.description}
         </p>
 
@@ -93,7 +92,6 @@ export default function ModuleMenu({ onSelectModule }) {
 
   return (
     <div className="w-full h-screen overflow-y-auto p-6 sm:p-8 lg:p-10 scrollbar-styled relative" style={{ backgroundColor: 'var(--bg-primary)' }}>
-      <ToolsBackground />
       <div className="relative z-10">
         {/* Theme toggle in header */}
         <div className="absolute top-4 right-4 sm:top-6 sm:right-6 lg:top-8 lg:right-8">
@@ -102,13 +100,15 @@ export default function ModuleMenu({ onSelectModule }) {
 
         {/* Header */}
         <div className="text-center mb-6 sm:mb-8">
-          <div className="flex justify-center mb-4">
-            <img src="/logo.png" alt="ShopLogic Logo" className="h-24 sm:h-32 w-auto" />
+          <div className="inline-flex items-center gap-2 mb-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-amber-500 gold-pulse" />
+            <span className="text-[10px] sm:text-xs font-medium tracking-[0.2em] uppercase text-gray-500">Workshop Tools</span>
+            <div className="w-1.5 h-1.5 rounded-full bg-amber-500 gold-pulse" style={{ animationDelay: '1.5s' }} />
           </div>
-        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-1 tracking-tight" style={{ color: 'var(--text-primary)' }}>
-          ShopLogic<span className="gold-glow-text" style={{ color: 'var(--accent)' }}>.</span>
-        </h1>
-        <p className="text-xs sm:text-sm max-w-md mx-auto" style={{ color: 'var(--text-muted)' }}>
+          <div className="flex flex-col items-center gap-4 mb-6">
+            <img src="/logo.png" alt="ShopLogic" className="w-[448px] h-[448px] sm:w-[512px] sm:h-[512px] lg:w-[576px] lg:h-[576px] object-contain" />
+          </div>
+        <p className="text-xs sm:text-sm text-gray-400 max-w-md mx-auto">
           Precision calculators for woodworking, metalworking & automotive
         </p>
       </div>

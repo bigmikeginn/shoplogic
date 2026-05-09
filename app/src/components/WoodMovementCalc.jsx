@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { calculateSeasonalMovement, SEASONAL_RH } from '../utils/woodMovement';
+import WoodMovementIllustration from './WoodMovementIllustration';
 import { WOOD_DATABASE } from '../utils/woodDatabase';
 
 export default function WoodMovementCalc() {
@@ -69,6 +70,7 @@ export default function WoodMovementCalc() {
           Could not find wood species data.
         </div>
       )}
+      <WoodMovementIllustration />
     </div>
   );
 }

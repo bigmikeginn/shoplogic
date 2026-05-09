@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { WOOD_DATABASE, searchWood, getWoodsByHardness, getWoodsByStability } from '../utils/woodDatabase';
+import WoodDatabaseIllustration from './WoodDatabaseIllustration';
 
 export default function WoodDatabase() {
   const [search, setSearch] = useState('');
@@ -70,6 +71,7 @@ export default function WoodDatabase() {
           <p className="text-xs text-gray-400">{selectedWood.notes}</p>
         </div>
       )}
+      <WoodDatabaseIllustration />
     </div>
   );
 }
