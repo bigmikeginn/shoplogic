@@ -23,6 +23,7 @@ import GearRatio from './components/GearRatio';
 import BoltCircle from './components/BoltCircle';
 import TriangleSolver from './components/TriangleSolver';
 import { getModuleById } from './utils/moduleConfig';
+import LandingPage from './pages/LandingPage';
 
 const COMPONENT_MAP = {
   'board-feet': BoardFeet,
@@ -49,7 +50,11 @@ const COMPONENT_MAP = {
 };
 
 export default function App() {
-  const [viewMode, setViewMode] = useState('menu');
+  const [viewMode, setViewMode] = useState(() => {
+    // Check if app=true in URL to show the app, otherwise show landing page
+    const params = new URLSearchParams(window.location.search);
+    return params.get('app') === 'true' ? 'menu' : 'landing';
+  });
   const [activeModule, setActiveModule] = useState(null);
 
   const handleSelectModule = (moduleId) => {
@@ -68,6 +73,10 @@ export default function App() {
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
+
+  if (viewMode === 'landing') {
+    return <LandingPage />;
+  }
 
   if (viewMode === 'menu') {
     return <ModuleMenu onSelectModule={handleSelectModule} />;
