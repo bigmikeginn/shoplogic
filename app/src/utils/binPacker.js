@@ -1,18 +1,25 @@
 /**
- * Simple 2D bin packing for rectangular parts on 4x8 plywood sheets
- * Sheet dimensions: 48" × 96" (W × L)
+ * Simple 2D bin packing for rectangular parts on plywood sheets
+ * Supports 4x8 and 5x5 sheets
  */
 
-const SHEET_WIDTH = 48;  // inches
-const SHEET_LENGTH = 96; // inches
+const SHEET_SIZES = {
+  '4x8': { width: 48, length: 96, label: '4\' × 8\'' },
+  '5x5': { width: 60, length: 60, label: '5\' × 5\'' }
+};
 
 /**
  * Pack parts onto sheets using shelf-packing algorithm
  * @param {Array} parts - [{width, length, qty}, ...]
+ * @param {String} sheetSize - '4x8' or '5x5' (default: '4x8')
  * @returns {Object} { sheets: [[{x, y, w, l, partIdx}]], waste, efficiency }
  */
-export function packParts(parts) {
-  if (!parts || parts.length === 0) return { sheets: [], waste: 0, efficiency: 0 };
+export function packParts(parts, sheetSize = '4x8') {
+  const sheet = SHEET_SIZES[sheetSize] || SHEET_SIZES['4x8'];
+  const SHEET_WIDTH = sheet.width;
+  const SHEET_LENGTH = sheet.length;
+
+  if (!parts || parts.length === 0) return { sheets: [], waste: 0, efficiency: 0, sheetSize };
 
   // Flatten: create individual items with part index
   const items = [];
@@ -27,10 +34,9 @@ export function packParts(parts) {
 
   const sheets = [];
   let currentSheet = [];
-  let sheetUsed = 0;
 
   for (const item of items) {
-    const placed = tryPlaceItem(item, currentSheet);
+    const placed = tryPlaceItem(item, currentSheet, SHEET_WIDTH, SHEET_LENGTH);
 
     if (!placed) {
       // Can't fit on current sheet, start new one
@@ -38,7 +44,7 @@ export function packParts(parts) {
         sheets.push(currentSheet);
       }
       currentSheet = [];
-      tryPlaceItem(item, currentSheet); // Force place on new sheet
+      tryPlaceItem(item, currentSheet, SHEET_WIDTH, SHEET_LENGTH); // Force place on new sheet
     }
   }
 
@@ -58,7 +64,8 @@ export function packParts(parts) {
     totalArea,
     sheetArea,
     waste: Math.round(waste * 100) / 100,
-    efficiency: Math.round(efficiency * 10000) / 100 // percentage
+    efficiency: Math.round(efficiency * 10000) / 100, // percentage
+    sheetSize
   };
 }
 
@@ -66,17 +73,17 @@ export function packParts(parts) {
  * Try to place item on sheet using guillotine algorithm
  * Simple left-to-right, top-to-bottom packing
  */
-function tryPlaceItem(item, sheet) {
+function tryPlaceItem(item, sheet, sheetWidth, sheetLength) {
   // Try orientation 1: width × length
-  if (canPlace(item.width, item.length, sheet)) {
-    const pos = findPosition(item.width, item.length, sheet);
+  if (canPlace(item.width, item.length, sheet, sheetWidth, sheetLength)) {
+    const pos = findPosition(item.width, item.length, sheet, sheetWidth, sheetLength);
     sheet.push({ ...pos, w: item.width, l: item.length, partIdx: item.partIdx });
     return true;
   }
 
   // Try orientation 2: length × width (rotated)
-  if (item.width !== item.length && canPlace(item.length, item.width, sheet)) {
-    const pos = findPosition(item.length, item.width, sheet);
+  if (item.width !== item.length && canPlace(item.length, item.width, sheet, sheetWidth, sheetLength)) {
+    const pos = findPosition(item.length, item.width, sheet, sheetWidth, sheetLength);
     sheet.push({ ...pos, w: item.length, l: item.width, partIdx: item.partIdx });
     return true;
   }
@@ -84,8 +91,8 @@ function tryPlaceItem(item, sheet) {
   return false;
 }
 
-function canPlace(w, l, sheet) {
-  if (w > SHEET_WIDTH || l > SHEET_LENGTH) return false;
+function canPlace(w, l, sheet, sheetWidth, sheetLength) {
+  if (w > sheetWidth || l > sheetLength) return false;
   if (sheet.length === 0) return true;
 
   const bounds = getUsedBounds(sheet);
@@ -93,33 +100,33 @@ function canPlace(w, l, sheet) {
   // Try placing next to existing items
   for (const rect of sheet) {
     // Right of rect
-    if (rect.x + rect.w + w <= SHEET_WIDTH && bounds.maxY + l <= SHEET_LENGTH) {
+    if (rect.x + rect.w + w <= sheetWidth && bounds.maxY + l <= sheetLength) {
       return true;
     }
   }
 
   // Try above items
-  if (bounds.maxX + w <= SHEET_WIDTH && bounds.maxY + l <= SHEET_LENGTH) {
+  if (bounds.maxX + w <= sheetWidth && bounds.maxY + l <= sheetLength) {
     return true;
   }
 
   return false;
 }
 
-function findPosition(w, l, sheet) {
+function findPosition(w, l, sheet, sheetWidth, sheetLength) {
   if (sheet.length === 0) return { x: 0, y: 0 };
 
   const bounds = getUsedBounds(sheet);
 
   // Try right edge
   for (const rect of sheet) {
-    if (rect.x + rect.w + w <= SHEET_WIDTH && rect.y + l <= SHEET_LENGTH) {
+    if (rect.x + rect.w + w <= sheetWidth && rect.y + l <= sheetLength) {
       return { x: rect.x + rect.w, y: rect.y };
     }
   }
 
   // Try above (new row)
-  if (bounds.maxX + w <= SHEET_WIDTH && bounds.maxY + l <= SHEET_LENGTH) {
+  if (bounds.maxX + w <= sheetWidth && bounds.maxY + l <= sheetLength) {
     return { x: bounds.maxX, y: bounds.maxY };
   }
 

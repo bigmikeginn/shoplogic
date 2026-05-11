@@ -9,6 +9,7 @@ export default function PlywoodPlanner() {
   const [parts, setParts] = useState([]);
   const [result, setResult] = useState(null);
   const [selectedPart, setSelectedPart] = useState(0);
+  const [sheetSize, setSheetSize] = useState('4x8');
 
   const addPart = () => {
     setParts([...parts, { width: 6, length: 12, qty: 1 }]);
@@ -25,13 +26,37 @@ export default function PlywoodPlanner() {
   };
 
   const handlePack = () => {
-    const packResult = packParts(parts);
+    const packResult = packParts(parts, sheetSize);
     setResult(packResult);
   };
 
   return (
     <div className="w-full max-w-lg mx-auto px-4 py-6 sm:py-8">
       <div className="flex flex-col gap-3">
+        {/* Sheet Size Selector */}
+        <div className="flex gap-2">
+          <button
+            onClick={() => setSheetSize('4x8')}
+            className={`flex-1 px-3 py-2 rounded-lg text-sm font-medium transition ${
+              sheetSize === '4x8'
+                ? 'bg-amber-500/20 border border-amber-500/40 text-amber-400'
+                : 'bg-white/[0.03] border border-white/[0.08] text-gray-400 hover:text-white hover:bg-white/[0.06]'
+            }`}
+          >
+            4' × 8'
+          </button>
+          <button
+            onClick={() => setSheetSize('5x5')}
+            className={`flex-1 px-3 py-2 rounded-lg text-sm font-medium transition ${
+              sheetSize === '5x5'
+                ? 'bg-amber-500/20 border border-amber-500/40 text-amber-400'
+                : 'bg-white/[0.03] border border-white/[0.08] text-gray-400 hover:text-white hover:bg-white/[0.06]'
+            }`}
+          >
+            5' × 5'
+          </button>
+        </div>
+
         {/* Input Panel */}
         <div className="glass-card p-4">
           <h3 className="font-semibold text-white text-sm mb-3">Parts (Length × Width × # Parts)</h3>
