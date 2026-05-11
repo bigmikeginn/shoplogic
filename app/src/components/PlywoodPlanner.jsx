@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { packParts } from '../utils/binPacker';
 import SheetVisualization from './SheetVisualization';
 import PlywoodPlannerIllustration from './PlywoodPlannerIllustration';
@@ -29,6 +29,13 @@ export default function PlywoodPlanner() {
     const packResult = packParts(parts, sheetSize);
     setResult(packResult);
   };
+
+  useEffect(() => {
+    if (result && parts.length > 0) {
+      const packResult = packParts(parts, sheetSize);
+      setResult(packResult);
+    }
+  }, [sheetSize, parts]);
 
   return (
     <div className="w-full max-w-lg mx-auto px-4 py-6 sm:py-8">
