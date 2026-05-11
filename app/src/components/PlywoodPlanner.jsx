@@ -98,7 +98,7 @@ export default function PlywoodPlanner() {
               </div>
               <div className="space-y-3 max-h-96 overflow-y-auto scrollbar-styled">
                 {result.sheets.map((sheet, sheetIdx) => (
-                  <SheetVisualization key={sheetIdx} sheet={sheet} sheetIdx={sheetIdx} colors={COLORS} />
+                  <SheetVisualization key={sheetIdx} sheet={sheet} sheetIdx={sheetIdx} colors={COLORS} sheetSize={sheetSize} />
                 ))}
               </div>
             </>

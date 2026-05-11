@@ -2,11 +2,17 @@
  * SVG visualization of a plywood sheet with packed parts
  */
 
-const SHEET_WIDTH = 48;
-const SHEET_LENGTH = 96;
+const SHEET_SIZES = {
+  '4x8': { width: 48, length: 96, label: '4\' × 8\'' },
+  '5x5': { width: 60, length: 60, label: '5\' × 5\'' }
+};
+
 const SCALE = 3; // pixels per inch
 
-export default function SheetVisualization({ sheet, sheetIdx, colors }) {
+export default function SheetVisualization({ sheet, sheetIdx, colors, sheetSize = '4x8' }) {
+  const sheetDims = SHEET_SIZES[sheetSize] || SHEET_SIZES['4x8'];
+  const SHEET_WIDTH = sheetDims.width;
+  const SHEET_LENGTH = sheetDims.length;
   const svgWidth = SHEET_WIDTH * SCALE;
   const svgHeight = SHEET_LENGTH * SCALE;
 
