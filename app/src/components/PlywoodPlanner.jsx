@@ -31,8 +31,11 @@ export default function PlywoodPlanner() {
   };
 
   useEffect(() => {
+    console.log('Sheet size changed to:', sheetSize);
     if (result && parts.length > 0) {
+      console.log('Repacking with new sheet size');
       const packResult = packParts(parts, sheetSize);
+      console.log('New pack result:', packResult);
       setResult(packResult);
     }
   }, [sheetSize]);
