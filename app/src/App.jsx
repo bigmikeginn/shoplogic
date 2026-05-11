@@ -24,6 +24,11 @@ import BoltCircle from './components/BoltCircle';
 import TriangleSolver from './components/TriangleSolver';
 import { getModuleById } from './utils/moduleConfig';
 import LandingPage from './pages/LandingPage';
+import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignupPage';
+import ProjectsPage from './pages/ProjectsPage';
+import ProjectDetailPage from './pages/ProjectDetailPage';
+import useFirebaseAuth from './hooks/useFirebaseAuth';
 
 const COMPONENT_MAP = {
   'board-feet': BoardFeet,
@@ -50,12 +55,14 @@ const COMPONENT_MAP = {
 };
 
 export default function App() {
+  const { user, loading: authLoading, signOut } = useFirebaseAuth();
   const [viewMode, setViewMode] = useState(() => {
-    // Check if app=true in URL to show the app, otherwise show landing page
     const params = new URLSearchParams(window.location.search);
     return params.get('app') === 'true' ? 'menu' : 'landing';
   });
   const [activeModule, setActiveModule] = useState(null);
+  const [selectedProjectId, setSelectedProjectId] = useState(null);
+  const [authView, setAuthView] = useState('login');
 
   const handleSelectModule = (moduleId) => {
     setActiveModule(moduleId);
@@ -68,20 +75,99 @@ export default function App() {
     setActiveModule(null);
   };
 
+  const handleLoginSuccess = () => {
+    setViewMode('projects');
+  };
+
+  const handleSignupSuccess = () => {
+    setViewMode('projects');
+  };
+
+  const handleLogout = async () => {
+    try {
+      await signOut();
+      setViewMode('landing');
+      setSelectedProjectId(null);
+      setAuthView('login');
+    } catch (err) {
+      console.error('Logout error:', err);
+    }
+  };
+
+  const handleSelectProject = (projectId) => {
+    setSelectedProjectId(projectId);
+    setViewMode('project-detail');
+  };
+
+  const handleBackFromProject = () => {
+    setSelectedProjectId(null);
+    setViewMode('projects');
+  };
+
   useEffect(() => {
     const handlePopState = () => handleBackToMenu();
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
+  // Show loading state while checking auth
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center">
+        <div className="text-[var(--text-muted)]">Loading...</div>
+      </div>
+    );
+  }
+
+  // Landing page (unauthenticated, not in app mode)
   if (viewMode === 'landing') {
     return <LandingPage />;
   }
 
+  // Auth pages (login/signup)
+  if (!user) {
+    if (authView === 'login') {
+      return (
+        <LoginPage
+          onLoginSuccess={handleLoginSuccess}
+          onSwitchToSignup={() => setAuthView('signup')}
+        />
+      );
+    }
+    return (
+      <SignupPage
+        onSignupSuccess={handleSignupSuccess}
+        onSwitchToLogin={() => setAuthView('login')}
+      />
+    );
+  }
+
+  // Projects page (authenticated)
+  if (viewMode === 'projects') {
+    return (
+      <ProjectsPage
+        onSelectProject={handleSelectProject}
+        onLogout={handleLogout}
+      />
+    );
+  }
+
+  // Project detail page
+  if (viewMode === 'project-detail') {
+    return (
+      <ProjectDetailPage
+        projectId={selectedProjectId}
+        onBack={handleBackFromProject}
+      />
+    );
+  }
+
+  // Menu (authenticated, with app=true)
   if (viewMode === 'menu') {
     return <ModuleMenu onSelectModule={handleSelectModule} />;
   }
 
+  // Module/tool view
   const Component = COMPONENT_MAP[activeModule];
   const moduleConfig = getModuleById(activeModule);
 

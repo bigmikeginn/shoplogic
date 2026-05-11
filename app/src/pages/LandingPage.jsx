@@ -118,6 +118,16 @@ export default function LandingPage() {
               <span className="flex items-center gap-2"><span className="text-[var(--accent)]">✓</span> No subscription</span>
               <span className="flex items-center gap-2"><span className="text-[var(--accent)]">✓</span> Built for real shop work</span>
             </div>
+
+            {/* Trial offer */}
+            <div className="mt-6 p-4 sm:p-5 rounded-lg bg-gradient-to-r from-[rgba(251,191,36,0.15)] to-[rgba(251,191,36,0.05)] border border-[var(--accent)] border-opacity-30">
+              <p className="text-base font-semibold text-[var(--accent)]">
+                🎁 Free 2-week trial of premium features included
+              </p>
+              <p className="text-sm text-[var(--text-secondary)] mt-2">
+                Try project folders and saved outputs at no extra cost. After 2 weeks, enjoy them forever with your purchase.
+              </p>
+            </div>
           </section>
         </AnimatedSection>
 
@@ -368,6 +378,7 @@ export default function LandingPage() {
                       {[
                         'Full access to Shoplogic',
                         'All current tools',
+                        'Free 2-week trial of project folders & saved outputs',
                         'Includes Shoplogic 1.x updates',
                         'No subscription',
                         'Loyalty discount on future versions'
