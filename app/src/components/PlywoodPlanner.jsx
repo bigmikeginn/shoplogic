@@ -119,7 +119,7 @@ export default function PlywoodPlanner() {
           )}
         </div>
       </div>
-      <PlywoodPlannerIllustration />
+      <PlywoodPlannerIllustration sheetSize={sheetSize} />
     </div>
   );
 }
