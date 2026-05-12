@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import useOutputs from '../hooks/useOutputs';
 import useProjects from '../hooks/useProjects';
+import TrialBanner from '../components/TrialBanner';
 
-export default function ProjectDetailPage({ projectId, onBack, onOpenTools }) {
+export default function ProjectDetailPage({ projectId, onBack, onOpenTools, entitlement }) {
   const { projects } = useProjects();
   const { outputs, loading, error, updateOutput, deleteOutput } = useOutputs(projectId);
   const [expandedId, setExpandedId] = useState(null);
@@ -54,6 +55,8 @@ export default function ProjectDetailPage({ projectId, onBack, onOpenTools }) {
       </header>
 
       <main className="relative z-10 max-w-4xl mx-auto px-4 py-8">
+        <TrialBanner entitlement={entitlement} />
+
         {/* Error state */}
         {error && (
           <div className="mb-6 p-4 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-sm">

@@ -1,5 +1,10 @@
 // Stripe checkout integration
 // Get your Stripe publishable key from: https://dashboard.stripe.com/apikeys
+//
+// Configure your Stripe Payment Link's "After payment" success URL to
+// `https://<your-domain>/?purchase=success` so useStripeSuccessHandler can
+// flip hasPurchased on return. (See Stripe Dashboard → Payment Links → After
+// payment → Don't show confirmation page → Redirect customers to your URL.)
 
 export const STRIPE_PUBLISHABLE_KEY = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
 export const STRIPE_PRICE_ID = import.meta.env.VITE_STRIPE_PRICE_ID;

@@ -29,7 +29,10 @@ import SignupPage from './pages/SignupPage';
 import ProjectsPage from './pages/ProjectsPage';
 import ProjectDetailPage from './pages/ProjectDetailPage';
 import useFirebaseAuth from './hooks/useFirebaseAuth';
+import useEntitlement from './hooks/useEntitlement';
+import useStripeSuccessHandler from './hooks/useStripeSuccessHandler';
 import SaveOutputModal from './components/SaveOutputModal';
+import UpgradeModal from './components/UpgradeModal';
 
 function normalizeText(value) {
   return value?.replace(/\s+/g, ' ').trim() ?? '';
@@ -119,7 +122,10 @@ const COMPONENT_MAP = {
 
 export default function App() {
   const { user, loading: authLoading, signOut } = useFirebaseAuth();
+  const entitlement = useEntitlement();
+  useStripeSuccessHandler();
   const toolContentRef = useRef(null);
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [viewMode, setViewMode] = useState(() => {
     const params = new URLSearchParams(window.location.search);
     return params.get('app') === 'true' ? 'auth' : 'landing';
@@ -184,6 +190,10 @@ export default function App() {
   };
 
   const handleOpenSaveModal = () => {
+    if (!entitlement.isPremium && entitlement.status !== 'loading') {
+      setShowUpgradeModal(true);
+      return;
+    }
     try {
       const snapshot = buildToolSnapshot(toolContentRef.current);
       const moduleConfig = getModuleById(activeModule);
@@ -250,6 +260,7 @@ export default function App() {
           onSelectProject={handleSelectProject}
           onLogout={handleLogout}
           onOpenTools={handleOpenTools}
+          entitlement={entitlement}
         />
       );
   }
@@ -261,6 +272,7 @@ export default function App() {
           projectId={selectedProjectId}
           onBack={handleBackFromProject}
           onOpenTools={handleOpenTools}
+          entitlement={entitlement}
         />
       );
   }
@@ -295,6 +307,14 @@ export default function App() {
           result={saveModalState.result}
           onClose={() => setSaveModalState(null)}
           onSuccess={() => setSaveModalState(null)}
+        />
+      )}
+
+      {showUpgradeModal && (
+        <UpgradeModal
+          onClose={() => setShowUpgradeModal(false)}
+          title="Saving needs premium"
+          message="Your free 2-week trial of project folders has ended. Upgrade once and keep saving outputs forever."
         />
       )}
     </>

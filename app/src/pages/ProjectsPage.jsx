@@ -2,12 +2,16 @@ import { useState } from 'react';
 import useProjects from '../hooks/useProjects';
 import useFirebaseAuth from '../hooks/useFirebaseAuth';
 import ProjectModal from '../components/ProjectModal';
+import TrialBanner from '../components/TrialBanner';
+import UpgradeModal from '../components/UpgradeModal';
 
-export default function ProjectsPage({ onSelectProject, onLogout, onOpenTools }) {
+export default function ProjectsPage({ onSelectProject, onLogout, onOpenTools, entitlement }) {
   const { projects, loading, error, createProject, updateProject, deleteProject } = useProjects();
   const { user } = useFirebaseAuth();
   const [showModal, setShowModal] = useState(false);
   const [editingProject, setEditingProject] = useState(null);
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+  const isPremium = entitlement?.isPremium ?? true;
 
   const handleCreateProject = async (name, description) => {
     try {
@@ -61,10 +65,13 @@ export default function ProjectsPage({ onSelectProject, onLogout, onOpenTools })
       </header>
 
       <main className="relative z-10 max-w-4xl mx-auto px-4 py-8">
+        <TrialBanner entitlement={entitlement} />
+
         {/* Create button */}
         <div className="mb-8 flex gap-3 flex-wrap">
           <button
             onClick={() => {
+              if (!isPremium) { setShowUpgradeModal(true); return; }
               setEditingProject(null);
               setShowModal(true);
             }}
@@ -102,6 +109,7 @@ export default function ProjectsPage({ onSelectProject, onLogout, onOpenTools })
             <p className="text-lg text-[var(--text-muted)] mb-4">No projects yet</p>
             <button
               onClick={() => {
+                if (!isPremium) { setShowUpgradeModal(true); return; }
                 setEditingProject(null);
                 setShowModal(true);
               }}
@@ -173,6 +181,10 @@ export default function ProjectsPage({ onSelectProject, onLogout, onOpenTools })
             setEditingProject(null);
           }}
         />
+      )}
+
+      {showUpgradeModal && (
+        <UpgradeModal onClose={() => setShowUpgradeModal(false)} />
       )}
     </div>
   );

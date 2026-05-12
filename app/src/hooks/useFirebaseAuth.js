@@ -24,6 +24,8 @@ async function upsertUserProfile(user) {
       displayName: user.displayName ?? '',
       preferredUnits: 'imperial',
       theme: 'dark',
+      trialStartedAt: serverTimestamp(),
+      hasPurchased: false,
       updatedAt: serverTimestamp(),
       createdAt: serverTimestamp(),
     },
