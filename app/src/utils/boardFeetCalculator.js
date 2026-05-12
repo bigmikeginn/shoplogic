@@ -20,13 +20,29 @@ export function calculateBoardFeet(qty, thickness, width, length) {
  * @param {string} thickStr
  * @param {string} widthStr
  * @param {string} lengthStr
- * @returns {number}
+ * @returns {object} Result object with totalBF and breakdown
  */
 export function calculateFromStrings(qtyStr, thickStr, widthStr, lengthStr) {
-  const qty = parseFraction(qtyStr);
-  const thick = parseFraction(thickStr);
-  const width = parseFraction(widthStr);
-  const length = parseFraction(lengthStr);
+  try {
+    const qty = parseFraction(qtyStr);
+    const thick = parseFraction(thickStr);
+    const width = parseFraction(widthStr);
+    const length = parseFraction(lengthStr);
 
-  return calculateBoardFeet(qty, thick, width, length);
+    if (!qty || !thick || !width || !length) {
+      return { error: 'Please enter all values' };
+    }
+
+    const totalBF = calculateBoardFeet(qty, thick, width, length);
+
+    return {
+      totalBF,
+      pieces: qty,
+      thicknessText: thickStr,
+      width,
+      length
+    };
+  } catch (err) {
+    return { error: 'Invalid input. Check your values.' };
+  }
 }
