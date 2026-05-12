@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import useOutputs from '../hooks/useOutputs';
 import useProjects from '../hooks/useProjects';
 
-export default function ProjectDetailPage({ projectId, onBack }) {
+export default function ProjectDetailPage({ projectId, onBack, onOpenTools }) {
   const { projects } = useProjects();
   const { outputs, loading, error, updateOutput, deleteOutput } = useOutputs(projectId);
   const [expandedId, setExpandedId] = useState(null);
@@ -75,6 +75,12 @@ export default function ProjectDetailPage({ projectId, onBack }) {
           <div className="text-center py-12">
             <p className="text-lg text-[var(--text-muted)] mb-4">No saved outputs yet</p>
             <p className="text-sm text-[var(--text-muted)]">Run a calculator tool and save the results to this project</p>
+            <button
+              onClick={onOpenTools}
+              className="mt-4 px-6 py-3 font-semibold rounded-lg bg-gradient-to-br from-[var(--accent)] to-orange-600 text-gray-900 hover:shadow-xl hover:shadow-[var(--accent)]/50 transition-all"
+            >
+              Open Tools
+            </button>
           </div>
         )}
 

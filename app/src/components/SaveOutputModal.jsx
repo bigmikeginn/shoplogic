@@ -16,11 +16,16 @@ export default function SaveOutputModal({
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState(null);
 
-  const selectedProject = projects.find((p) => p.id === selectedProjectId);
   const { saveOutput } = useOutputs(selectedProjectId);
 
   useEffect(() => {
-    if (projects.length > 0 && !selectedProjectId) {
+    if (projects.length === 0) {
+      setSelectedProjectId('');
+      return;
+    }
+
+    const hasSelection = projects.some((project) => project.id === selectedProjectId);
+    if (!hasSelection) {
       setSelectedProjectId(projects[0].id);
     }
   }, [projects, selectedProjectId]);
@@ -28,6 +33,12 @@ export default function SaveOutputModal({
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+
+    if (!selectedProjectId) {
+      setError('Choose a project before saving.');
+      return;
+    }
+
     setIsSaving(true);
 
     try {
@@ -116,6 +127,7 @@ export default function SaveOutputModal({
             <p className="font-medium text-[var(--accent)] mb-1">Saving:</p>
             <ul className="space-y-1 text-xs">
               <li>✓ Tool: {toolName}</li>
+              <li>✓ Project: {projects.find((p) => p.id === selectedProjectId)?.name ?? 'Select a project'}</li>
               <li>✓ Inputs and result</li>
               <li>✓ Your notes</li>
             </ul>
@@ -124,7 +136,7 @@ export default function SaveOutputModal({
           <div className="flex gap-3 pt-4">
             <button
               type="submit"
-              disabled={isSaving}
+              disabled={isSaving || !selectedProjectId}
               className="flex-1 py-3 font-semibold rounded-lg bg-gradient-to-br from-[var(--accent)] to-orange-600 text-gray-900 hover:shadow-xl hover:shadow-[var(--accent)]/50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             >
               {isSaving ? 'Saving...' : 'Save'}

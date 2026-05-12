@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { redirectToCheckout } from '../utils/stripeCheckout';
 
-export default function LandingPage() {
+export default function LandingPage({ onGetStarted, onSignIn }) {
   const [isHeaderScrolled, setIsHeaderScrolled] = useState(false);
   const [visibleSections, setVisibleSections] = useState({});
 
@@ -40,6 +40,10 @@ export default function LandingPage() {
     redirectToCheckout();
   };
 
+  const handleSeeInside = () => {
+    document.getElementById('capabilities')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
   const AnimatedSection = ({ id, children }) => (
     <div
       id={id}
@@ -73,12 +77,20 @@ export default function LandingPage() {
             </div>
             <span className="font-bold text-lg">ShopLogic</span>
           </div>
-          <button
-            onClick={handleCheckout}
-            className="px-4 py-2 text-sm font-semibold rounded-lg bg-gradient-to-br from-[var(--accent)] to-orange-600 text-gray-900 hover:shadow-xl hover:shadow-[var(--accent)]/50 hover:scale-105 transition-all"
-          >
-            Get ShopLogic
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={onSignIn}
+              className="px-3 py-2 text-sm font-semibold rounded-lg border border-[var(--border-light)] text-[var(--text-primary)] hover:bg-[rgba(255,255,255,0.05)] transition-all"
+            >
+              Sign In
+            </button>
+            <button
+              onClick={handleCheckout}
+              className="px-4 py-2 text-sm font-semibold rounded-lg bg-gradient-to-br from-[var(--accent)] to-orange-600 text-gray-900 hover:shadow-xl hover:shadow-[var(--accent)]/50 hover:scale-105 transition-all"
+            >
+              Get ShopLogic
+            </button>
+          </div>
         </div>
       </header>
 
@@ -102,12 +114,15 @@ export default function LandingPage() {
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-8">
               <button
-                onClick={handleCheckout}
+                onClick={onGetStarted}
                 className="px-6 py-3 font-semibold rounded-lg bg-gradient-to-br from-[var(--accent)] to-orange-600 text-gray-900 hover:shadow-2xl hover:shadow-[var(--accent)]/50 hover:scale-105 transition-all text-center"
               >
-                Buy Shoplogic
+                Create Account
               </button>
-              <button className="px-6 py-3 font-semibold rounded-lg border border-[var(--border-light)] bg-[rgba(255,255,255,0.03)] text-[var(--text-primary)] hover:bg-[rgba(251,191,36,0.1)] hover:border-[var(--accent)] hover:scale-105 transition-all text-center">
+              <button
+                onClick={handleSeeInside}
+                className="px-6 py-3 font-semibold rounded-lg border border-[var(--border-light)] bg-[rgba(255,255,255,0.03)] text-[var(--text-primary)] hover:bg-[rgba(251,191,36,0.1)] hover:border-[var(--accent)] hover:scale-105 transition-all text-center"
+              >
                 See What's Inside
               </button>
             </div>
