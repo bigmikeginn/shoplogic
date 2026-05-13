@@ -6,7 +6,7 @@ import {
   signInWithEmailAndPassword,
   signOut as firebaseSignOut,
 } from 'firebase/auth';
-import { doc, serverTimestamp, setDoc } from 'firebase/firestore';
+import { doc, getDoc, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../utils/firebaseConfig';
 
 function formatFirebaseError(error, fallbackMessage) {
@@ -14,21 +14,36 @@ function formatFirebaseError(error, fallbackMessage) {
   return message || fallbackMessage;
 }
 
-async function upsertUserProfile(user) {
+async function createUserProfile(user) {
   const profileRef = doc(db, 'users', user.uid);
 
-  await setDoc(
-    profileRef,
-    {
-      email: user.email ?? '',
-      displayName: user.displayName ?? '',
-      preferredUnits: 'imperial',
-      theme: 'dark',
-      updatedAt: serverTimestamp(),
-      createdAt: serverTimestamp(),
-    },
-    { merge: true }
-  );
+  await setDoc(profileRef, {
+    email: user.email ?? '',
+    displayName: user.displayName ?? '',
+    preferredUnits: 'imperial',
+    theme: 'dark',
+    isPremium: false,
+    premiumActivatedAt: null,
+    premiumSource: null,
+    updatedAt: serverTimestamp(),
+    createdAt: serverTimestamp(),
+  });
+}
+
+async function ensureUserProfileExists(user) {
+  const profileRef = doc(db, 'users', user.uid);
+  const profileSnapshot = await getDoc(profileRef);
+
+  if (!profileSnapshot.exists()) {
+    await createUserProfile(user);
+    return;
+  }
+
+  await updateDoc(profileRef, {
+    email: user.email ?? '',
+    displayName: user.displayName ?? '',
+    updatedAt: serverTimestamp(),
+  });
 }
 
 export function useFirebaseAuth() {
@@ -45,7 +60,7 @@ export function useFirebaseAuth() {
 
     try {
       const credentials = await createUserWithEmailAndPassword(auth, email, password);
-      await upsertUserProfile(credentials.user);
+      await createUserProfile(credentials.user);
       return credentials.user;
     } catch (err) {
       const message = formatFirebaseError(
@@ -103,9 +118,22 @@ export function useFirebaseAuth() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(
       auth,
-      (currentUser) => {
-        setUser(currentUser);
-        setLoading(false);
+      async (currentUser) => {
+        try {
+          if (currentUser) {
+            await ensureUserProfileExists(currentUser);
+          }
+
+          setUser(currentUser);
+          setLoading(false);
+        } catch (err) {
+          const message = formatFirebaseError(
+            err,
+            'Unable to prepare your account right now. Please refresh and try again.'
+          );
+          setError(message);
+          setLoading(false);
+        }
       },
       (err) => {
         const message = formatFirebaseError(

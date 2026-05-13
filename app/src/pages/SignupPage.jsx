@@ -118,7 +118,7 @@ export default function SignupPage({ onSignupSuccess, onSwitchToLogin }) {
 
           <div className="mt-6 p-4 rounded-lg bg-[rgba(251,191,36,0.08)] border border-[rgba(251,191,36,0.2)]">
             <p className="text-sm text-[var(--text-secondary)]">
-              🎁 <strong>Free 2-week trial</strong> of premium features included with your purchase.
+              🎁 <strong>Your account starts with a free 2-week trial</strong> for project folders and saved outputs.
             </p>
           </div>
         </div>

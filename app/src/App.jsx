@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import ModuleMenu from './components/ModuleMenu';
 import ToolLayout from './components/ToolLayout';
 import BoardFeet from './components/BoardFeet';
@@ -29,6 +29,71 @@ import SignupPage from './pages/SignupPage';
 import ProjectsPage from './pages/ProjectsPage';
 import ProjectDetailPage from './pages/ProjectDetailPage';
 import useFirebaseAuth from './hooks/useFirebaseAuth';
+import useEntitlement from './hooks/useEntitlement';
+import SaveOutputModal from './components/SaveOutputModal';
+import UpgradeModal from './components/UpgradeModal';
+
+function normalizeText(value) {
+  return value?.replace(/\s+/g, ' ').trim() ?? '';
+}
+
+function getFieldLabel(field, index) {
+  const explicitLabel = field.getAttribute('aria-label')
+    || field.getAttribute('name')
+    || field.getAttribute('placeholder')
+    || field.closest('label')?.textContent;
+
+  return normalizeText(explicitLabel) || `field_${index + 1}`;
+}
+
+function buildToolSnapshot(container) {
+  if (!container) {
+    throw new Error('Tool content is not available to save right now.');
+  }
+
+  const inputs = {};
+  const result = {};
+
+  const labelCounts = {};
+  const fields = Array.from(container.querySelectorAll('input, select, textarea'));
+  fields.forEach((field, index) => {
+    if (field.disabled) return;
+
+    if ((field.type === 'radio' || field.type === 'checkbox') && !field.checked) {
+      return;
+    }
+
+    const value = field.value;
+    if (value === '') return;
+
+    const baseLabel = getFieldLabel(field, index);
+    labelCounts[baseLabel] = (labelCounts[baseLabel] || 0) + 1;
+    const label = labelCounts[baseLabel] > 1 ? `${baseLabel} (${labelCounts[baseLabel]})` : baseLabel;
+    inputs[label] = value;
+  });
+
+  const resultCards = Array.from(container.querySelectorAll('.result-card, .result-card-highlight'));
+  resultCards.forEach((card, index) => {
+    const text = normalizeText(card.innerText);
+    if (text) {
+      result[`section_${index + 1}`] = text;
+    }
+  });
+
+  const errors = Array.from(container.querySelectorAll('[class*="text-red"], [class*="border-red"]'))
+    .map((node) => normalizeText(node.textContent))
+    .filter(Boolean);
+
+  if (errors.length > 0 && Object.keys(result).length === 0) {
+    throw new Error('Please calculate a valid result before saving it to a project.');
+  }
+
+  if (Object.keys(result).length === 0) {
+    throw new Error('Run the tool first so there is something to save.');
+  }
+
+  return { inputs, result };
+}
 
 const COMPONENT_MAP = {
   'board-feet': BoardFeet,
@@ -56,6 +121,8 @@ const COMPONENT_MAP = {
 
 export default function App() {
   const { user, loading: authLoading, signOut } = useFirebaseAuth();
+  const entitlement = useEntitlement();
+  const toolContentRef = useRef(null);
   const [viewMode, setViewMode] = useState(() => {
     const params = new URLSearchParams(window.location.search);
     return params.get('app') === 'true' ? 'menu' : 'landing';
@@ -63,6 +130,8 @@ export default function App() {
   const [activeModule, setActiveModule] = useState(null);
   const [selectedProjectId, setSelectedProjectId] = useState(null);
   const [authView, setAuthView] = useState('login');
+  const [saveModalState, setSaveModalState] = useState(null);
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
 
   const handleSelectModule = (moduleId) => {
     setActiveModule(moduleId);
@@ -73,6 +142,16 @@ export default function App() {
   const handleBackToMenu = () => {
     setViewMode('menu');
     setActiveModule(null);
+  };
+
+  const handleStartSignup = () => {
+    setAuthView('signup');
+    setViewMode('auth');
+  };
+
+  const handleStartLogin = () => {
+    setAuthView('login');
+    setViewMode('auth');
   };
 
   const handleLoginSuccess = () => {
@@ -104,11 +183,62 @@ export default function App() {
     setViewMode('projects');
   };
 
+  const handleOpenTools = () => {
+    setViewMode('menu');
+  };
+
+  const handleRequireUpgrade = () => {
+    setShowUpgradeModal(true);
+  };
+
+  const handleOpenSaveModal = () => {
+    try {
+      if (!entitlement.canUsePremiumFeatures) {
+        handleRequireUpgrade();
+        return;
+      }
+
+      if (!activeModule) {
+        throw new Error('Open a tool before saving its output.');
+      }
+
+      const snapshot = buildToolSnapshot(toolContentRef.current);
+      const moduleConfig = getModuleById(activeModule);
+
+      setSaveModalState({
+        toolId: activeModule,
+        toolName: moduleConfig?.title ?? 'Tool Output',
+        inputs: snapshot.inputs,
+        result: snapshot.result,
+      });
+    } catch (err) {
+      window.alert(err.message);
+    }
+  };
+
   useEffect(() => {
     const handlePopState = () => handleBackToMenu();
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
+
+  useEffect(() => {
+    if (user && (viewMode === 'landing' || viewMode === 'auth')) {
+      setViewMode('projects');
+    }
+  }, [user, viewMode]);
+
+  useEffect(() => {
+    if (!user || entitlement.loading || entitlement.canUsePremiumFeatures) {
+      return;
+    }
+
+    if (viewMode === 'projects' || viewMode === 'project-detail') {
+      setViewMode('menu');
+      setSelectedProjectId(null);
+      setShowUpgradeModal(true);
+    }
+  }, [entitlement.canUsePremiumFeatures, entitlement.loading, user, viewMode]);
 
   // Show loading state while checking auth
   if (authLoading) {
@@ -119,9 +249,17 @@ export default function App() {
     );
   }
 
+  if (user && entitlement.loading) {
+    return (
+      <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center">
+        <div className="text-[var(--text-muted)]">Checking premium access...</div>
+      </div>
+    );
+  }
+
   // Landing page (unauthenticated, not in app mode)
   if (viewMode === 'landing') {
-    return <LandingPage />;
+    return <LandingPage onGetStarted={handleStartSignup} onSignIn={handleStartLogin} />;
   }
 
   // Auth pages (login/signup)
@@ -144,22 +282,46 @@ export default function App() {
 
   // Projects page (authenticated)
   if (viewMode === 'projects') {
-    return (
-      <ProjectsPage
-        onSelectProject={handleSelectProject}
-        onLogout={handleLogout}
-      />
-    );
+      return (
+        <>
+          <ProjectsPage
+            onSelectProject={handleSelectProject}
+            onLogout={handleLogout}
+            onOpenTools={handleOpenTools}
+            entitlementStatus={entitlement.status}
+            trialDaysLeft={entitlement.trialDaysLeft}
+            onUpgrade={handleRequireUpgrade}
+          />
+          {showUpgradeModal && (
+            <UpgradeModal
+              onClose={() => setShowUpgradeModal(false)}
+              source="Project folders and saved outputs"
+            />
+          )}
+        </>
+      );
   }
 
   // Project detail page
   if (viewMode === 'project-detail') {
-    return (
-      <ProjectDetailPage
-        projectId={selectedProjectId}
-        onBack={handleBackFromProject}
-      />
-    );
+      return (
+        <>
+          <ProjectDetailPage
+            projectId={selectedProjectId}
+            onBack={handleBackFromProject}
+            onOpenTools={handleOpenTools}
+            entitlementStatus={entitlement.status}
+            trialDaysLeft={entitlement.trialDaysLeft}
+            onUpgrade={handleRequireUpgrade}
+          />
+          {showUpgradeModal && (
+            <UpgradeModal
+              onClose={() => setShowUpgradeModal(false)}
+              source="Project folders and saved outputs"
+            />
+          )}
+        </>
+      );
   }
 
   // Menu (authenticated, with app=true)
@@ -172,12 +334,38 @@ export default function App() {
   const moduleConfig = getModuleById(activeModule);
 
   return (
-    <ToolLayout
-      title={moduleConfig?.title ?? ''}
-      description={moduleConfig?.description ?? ''}
-      onBack={handleBackToMenu}
-    >
-      {Component && <Component />}
-    </ToolLayout>
+    <>
+      <ToolLayout
+        title={moduleConfig?.title ?? ''}
+        description={moduleConfig?.description ?? ''}
+        onBack={handleBackToMenu}
+        action={{ label: 'Save to Project', onClick: handleOpenSaveModal }}
+      >
+        <div ref={toolContentRef}>
+          {Component && <Component />}
+        </div>
+      </ToolLayout>
+
+      {saveModalState && (
+        <SaveOutputModal
+          toolId={saveModalState.toolId}
+          toolName={saveModalState.toolName}
+          inputs={saveModalState.inputs}
+          result={saveModalState.result}
+          entitlementStatus={entitlement.status}
+          trialDaysLeft={entitlement.trialDaysLeft}
+          onUpgrade={handleRequireUpgrade}
+          onClose={() => setSaveModalState(null)}
+          onSuccess={() => setSaveModalState(null)}
+        />
+      )}
+
+      {showUpgradeModal && (
+        <UpgradeModal
+          onClose={() => setShowUpgradeModal(false)}
+          source="Project folders and saved outputs"
+        />
+      )}
+    </>
   );
 }

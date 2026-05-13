@@ -2,8 +2,16 @@ import { useState } from 'react';
 import useProjects from '../hooks/useProjects';
 import useFirebaseAuth from '../hooks/useFirebaseAuth';
 import ProjectModal from '../components/ProjectModal';
+import TrialBanner from '../components/TrialBanner';
 
-export default function ProjectsPage({ onSelectProject, onLogout }) {
+export default function ProjectsPage({
+  onSelectProject,
+  onLogout,
+  onOpenTools,
+  entitlementStatus,
+  trialDaysLeft,
+  onUpgrade,
+}) {
   const { projects, loading, error, createProject, updateProject, deleteProject } = useProjects();
   const { user } = useFirebaseAuth();
   const [showModal, setShowModal] = useState(false);
@@ -61,8 +69,15 @@ export default function ProjectsPage({ onSelectProject, onLogout }) {
       </header>
 
       <main className="relative z-10 max-w-4xl mx-auto px-4 py-8">
+        <TrialBanner
+          status={entitlementStatus}
+          trialDaysLeft={trialDaysLeft}
+          onUpgrade={onUpgrade}
+          className="mb-6"
+        />
+
         {/* Create button */}
-        <div className="mb-8 flex gap-3">
+        <div className="mb-8 flex gap-3 flex-wrap">
           <button
             onClick={() => {
               setEditingProject(null);
@@ -71,6 +86,12 @@ export default function ProjectsPage({ onSelectProject, onLogout }) {
             className="px-6 py-3 font-semibold rounded-lg bg-gradient-to-br from-[var(--accent)] to-orange-600 text-gray-900 hover:shadow-xl hover:shadow-[var(--accent)]/50 transition-all"
           >
             + New Project
+          </button>
+          <button
+            onClick={onOpenTools}
+            className="px-6 py-3 font-semibold rounded-lg border border-[var(--border-light)] text-[var(--text-primary)] hover:bg-[rgba(255,255,255,0.05)] transition-all"
+          >
+            Open Tools
           </button>
         </div>
 

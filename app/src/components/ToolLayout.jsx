@@ -1,6 +1,6 @@
 import ThemeToggle from './ThemeToggle';
 
-export default function ToolLayout({ title, description, onBack, children }) {
+export default function ToolLayout({ title, description, onBack, action, children }) {
   return (
     <div className="min-h-screen w-full flex flex-col relative z-10">
       {/* Header */}
@@ -28,7 +28,21 @@ export default function ToolLayout({ title, description, onBack, children }) {
             )}
           </div>
 
-          <div className="flex-shrink-0">
+          <div className="flex items-center gap-2 flex-shrink-0">
+            {action && (
+              <button
+                onClick={action.onClick}
+                className="px-3 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200"
+                style={{
+                  border: '1px solid var(--border-light)',
+                  backgroundColor: 'color-mix(in srgb, var(--accent) 16%, transparent)',
+                  color: 'var(--accent)',
+                }}
+                title={action.label}
+              >
+                {action.label}
+              </button>
+            )}
             <ThemeToggle />
           </div>
         </div>
