@@ -32,6 +32,7 @@ import useFirebaseAuth from './hooks/useFirebaseAuth';
 import useEntitlement from './hooks/useEntitlement';
 import SaveOutputModal from './components/SaveOutputModal';
 import UpgradeModal from './components/UpgradeModal';
+import { redirectToCheckout } from './utils/stripeCheckout';
 
 function normalizeText(value) {
   return value?.replace(/\s+/g, ' ').trim() ?? '';
@@ -191,15 +192,19 @@ export default function App() {
     setShowUpgradeModal(true);
   };
 
+  const handleCheckout = () => {
+    redirectToCheckout(user?.uid);
+  };
+
   const handleOpenSaveModal = () => {
     try {
+      if (!activeModule) {
+        throw new Error('Open a tool before saving its output.');
+      }
+
       if (!entitlement.canUsePremiumFeatures) {
         handleRequireUpgrade();
         return;
-      }
-
-      if (!activeModule) {
-        throw new Error('Open a tool before saving its output.');
       }
 
       const snapshot = buildToolSnapshot(toolContentRef.current);
@@ -295,7 +300,7 @@ export default function App() {
           {showUpgradeModal && (
             <UpgradeModal
               onClose={() => setShowUpgradeModal(false)}
-              source="Project folders and saved outputs"
+              onCheckout={handleCheckout}
             />
           )}
         </>
@@ -317,7 +322,7 @@ export default function App() {
           {showUpgradeModal && (
             <UpgradeModal
               onClose={() => setShowUpgradeModal(false)}
-              source="Project folders and saved outputs"
+              onCheckout={handleCheckout}
             />
           )}
         </>

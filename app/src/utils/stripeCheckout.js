@@ -1,25 +1,20 @@
-// Stripe checkout integration
-// Get your Stripe publishable key from: https://dashboard.stripe.com/apikeys
+const STRIPE_CHECKOUT_URL = import.meta.env.VITE_STRIPE_CHECKOUT_URL;
 
-export const STRIPE_PUBLISHABLE_KEY = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
-export const STRIPE_PRICE_ID = import.meta.env.VITE_STRIPE_PRICE_ID;
-
-// Redirect to Stripe checkout
-export async function redirectToCheckout() {
-  if (!STRIPE_PUBLISHABLE_KEY || !STRIPE_PRICE_ID) {
-    console.error('Stripe configuration missing. Set VITE_STRIPE_PUBLISHABLE_KEY and VITE_STRIPE_PRICE_ID in .env.local');
+/**
+ * Redirect to the Stripe hosted checkout page.
+ * @param {string} [uid] - Firebase UID attached as client_reference_id so the
+ *   webhook can identify which user completed the purchase.
+ */
+export function redirectToCheckout(uid) {
+  if (!STRIPE_CHECKOUT_URL) {
+    console.error('Stripe checkout URL not configured. Set VITE_STRIPE_CHECKOUT_URL in .env.local');
     return;
   }
 
-  // For now, redirect to a Stripe checkout link
-  // Once you create the Stripe product/price, you'll get a hosted checkout link
-  // You can find it in Stripe Dashboard → Products → Your Product → Copy hosted checkout link
-
-  const stripeCheckoutUrl = import.meta.env.VITE_STRIPE_CHECKOUT_URL;
-
-  if (stripeCheckoutUrl) {
-    window.location.href = stripeCheckoutUrl;
-  } else {
-    console.error('Stripe checkout URL not configured. Set VITE_STRIPE_CHECKOUT_URL in .env.local');
+  const url = new URL(STRIPE_CHECKOUT_URL);
+  if (uid) {
+    url.searchParams.set('client_reference_id', uid);
   }
+
+  window.location.href = url.toString();
 }
