@@ -2,8 +2,16 @@ import { useState } from 'react';
 import useProjects from '../hooks/useProjects';
 import useFirebaseAuth from '../hooks/useFirebaseAuth';
 import ProjectModal from '../components/ProjectModal';
+import TrialBanner from '../components/TrialBanner';
 
-export default function ProjectsPage({ onSelectProject, onLogout, onOpenTools }) {
+export default function ProjectsPage({
+  onSelectProject,
+  onLogout,
+  onOpenTools,
+  entitlementStatus,
+  trialDaysLeft,
+  onUpgrade,
+}) {
   const { projects, loading, error, createProject, updateProject, deleteProject } = useProjects();
   const { user } = useFirebaseAuth();
   const [showModal, setShowModal] = useState(false);
@@ -61,6 +69,13 @@ export default function ProjectsPage({ onSelectProject, onLogout, onOpenTools })
       </header>
 
       <main className="relative z-10 max-w-4xl mx-auto px-4 py-8">
+        <TrialBanner
+          status={entitlementStatus}
+          trialDaysLeft={trialDaysLeft}
+          onUpgrade={onUpgrade}
+          className="mb-6"
+        />
+
         {/* Create button */}
         <div className="mb-8 flex gap-3 flex-wrap">
           <button

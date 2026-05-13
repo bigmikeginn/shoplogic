@@ -1,12 +1,16 @@
 import { useState, useEffect } from 'react';
 import useProjects from '../hooks/useProjects';
 import useOutputs from '../hooks/useOutputs';
+import TrialBanner from './TrialBanner';
 
 export default function SaveOutputModal({
   toolId,
   toolName,
   inputs = {},
   result = {},
+  entitlementStatus,
+  trialDaysLeft,
+  onUpgrade,
   onClose,
   onSuccess,
 }) {
@@ -89,6 +93,13 @@ export default function SaveOutputModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
       <div className="max-w-md w-full p-8 rounded-lg border border-[var(--border-light)] bg-[var(--bg-primary)]">
         <h2 className="text-2xl font-bold mb-6">Save to Project</h2>
+
+        <TrialBanner
+          status={entitlementStatus}
+          trialDaysLeft={trialDaysLeft}
+          onUpgrade={onUpgrade}
+          className="mb-4"
+        />
 
         {error && (
           <div className="mb-4 p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-sm">

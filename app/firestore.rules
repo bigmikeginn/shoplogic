@@ -9,6 +9,27 @@ service cloud.firestore {
       return isSignedIn() && request.auth.uid == userId;
     }
 
+    function userProfilePath(userId) {
+      return /databases/$(database)/documents/users/$(userId);
+    }
+
+    function userProfile(userId) {
+      return get(userProfilePath(userId));
+    }
+
+    function hasPremiumAccess(userId) {
+      return userProfile(userId).data.isPremium == true;
+    }
+
+    function hasActiveTrial(userId) {
+      return userProfile(userId).data.createdAt != null
+             && request.time < userProfile(userId).data.createdAt + duration.value(14, 'd');
+    }
+
+    function hasWorkspaceAccess(userId) {
+      return isOwner(userId) && (hasPremiumAccess(userId) || hasActiveTrial(userId));
+    }
+
     function projectPath(projectId) {
       return /databases/$(database)/documents/projects/$(projectId);
     }
@@ -18,26 +39,42 @@ service cloud.firestore {
     }
 
     match /users/{userId} {
-      allow read, create, update, delete: if isOwner(userId);
+      allow read, delete: if isOwner(userId);
+
+      allow create: if isOwner(userId)
+                    && request.resource.data.createdAt == request.time
+                    && request.resource.data.updatedAt == request.time
+                    && request.resource.data.isPremium == false;
+
+      allow update: if isOwner(userId)
+                    && request.resource.data.createdAt == resource.data.createdAt
+                    && request.resource.data.isPremium == resource.data.isPremium
+                    && request.resource.data.premiumActivatedAt == resource.data.premiumActivatedAt
+                    && request.resource.data.premiumSource == resource.data.premiumSource;
     }
 
     match /projects/{projectId} {
-      allow create: if isSignedIn()
+      allow create: if hasWorkspaceAccess(request.auth.uid)
                     && request.resource.data.userId == request.auth.uid;
 
-      allow read, delete: if ownsProject(projectId);
+      allow read, delete: if ownsProject(projectId)
+                          && hasWorkspaceAccess(resource.data.userId);
 
       allow update: if ownsProject(projectId)
+                    && hasWorkspaceAccess(resource.data.userId)
                     && request.resource.data.userId == resource.data.userId;
 
       match /outputs/{outputId} {
         allow create: if ownsProject(projectId)
+                      && hasWorkspaceAccess(request.auth.uid)
                       && request.resource.data.userId == request.auth.uid;
 
         allow read, delete: if ownsProject(projectId)
+                            && hasWorkspaceAccess(resource.data.userId)
                             && resource.data.userId == request.auth.uid;
 
         allow update: if ownsProject(projectId)
+                      && hasWorkspaceAccess(resource.data.userId)
                       && resource.data.userId == request.auth.uid
                       && request.resource.data.userId == resource.data.userId;
       }

@@ -137,10 +137,10 @@ export default function LandingPage({ onGetStarted, onSignIn }) {
             {/* Trial offer */}
             <div className="mt-6 p-4 sm:p-5 rounded-lg bg-gradient-to-r from-[rgba(251,191,36,0.15)] to-[rgba(251,191,36,0.05)] border border-[var(--accent)] border-opacity-30">
               <p className="text-base font-semibold text-[var(--accent)]">
-                🎁 Free 2-week trial of premium features included
+                🎁 Free 2-week trial of project folders and saved outputs included
               </p>
               <p className="text-sm text-[var(--text-secondary)] mt-2">
-                Try project folders and saved outputs at no extra cost. After 2 weeks, enjoy them forever with your purchase.
+                Try project folders and saved outputs at no extra cost for 14 days. Upgrade when you are ready to keep them unlocked.
               </p>
             </div>
           </section>
@@ -369,7 +369,7 @@ export default function LandingPage({ onGetStarted, onSignIn }) {
                   Buy it once. Use it on every project.
                 </h2>
                 <p className="text-lg text-[var(--text-muted)]">
-                  One-time purchase, lifetime access.
+                  One-time purchase for the core app, plus a 14-day premium workspace trial.
                 </p>
               </div>
 

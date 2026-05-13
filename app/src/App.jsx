@@ -30,7 +30,6 @@ import ProjectsPage from './pages/ProjectsPage';
 import ProjectDetailPage from './pages/ProjectDetailPage';
 import useFirebaseAuth from './hooks/useFirebaseAuth';
 import useEntitlement from './hooks/useEntitlement';
-import useStripeSuccessHandler from './hooks/useStripeSuccessHandler';
 import SaveOutputModal from './components/SaveOutputModal';
 import UpgradeModal from './components/UpgradeModal';
 
@@ -123,9 +122,7 @@ const COMPONENT_MAP = {
 export default function App() {
   const { user, loading: authLoading, signOut } = useFirebaseAuth();
   const entitlement = useEntitlement();
-  useStripeSuccessHandler();
   const toolContentRef = useRef(null);
-  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [viewMode, setViewMode] = useState(() => {
     const params = new URLSearchParams(window.location.search);
     return params.get('app') === 'true' ? 'menu' : 'landing';
@@ -134,6 +131,7 @@ export default function App() {
   const [selectedProjectId, setSelectedProjectId] = useState(null);
   const [authView, setAuthView] = useState('login');
   const [saveModalState, setSaveModalState] = useState(null);
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
 
   const handleSelectModule = (moduleId) => {
     setActiveModule(moduleId);
@@ -189,15 +187,21 @@ export default function App() {
     setViewMode('menu');
   };
 
+  const handleRequireUpgrade = () => {
+    setShowUpgradeModal(true);
+  };
+
   const handleOpenSaveModal = () => {
     try {
+      if (!entitlement.canUsePremiumFeatures) {
+        handleRequireUpgrade();
+        return;
+      }
+
       if (!activeModule) {
         throw new Error('Open a tool before saving its output.');
       }
-      if (!entitlement.isPremium && entitlement.status !== 'loading') {
-        setShowUpgradeModal(true);
-        return;
-      }
+
       const snapshot = buildToolSnapshot(toolContentRef.current);
       const moduleConfig = getModuleById(activeModule);
 
@@ -224,11 +228,31 @@ export default function App() {
     }
   }, [user, viewMode]);
 
+  useEffect(() => {
+    if (!user || entitlement.loading || entitlement.canUsePremiumFeatures) {
+      return;
+    }
+
+    if (viewMode === 'projects' || viewMode === 'project-detail') {
+      setViewMode('menu');
+      setSelectedProjectId(null);
+      setShowUpgradeModal(true);
+    }
+  }, [entitlement.canUsePremiumFeatures, entitlement.loading, user, viewMode]);
+
   // Show loading state while checking auth
   if (authLoading) {
     return (
       <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center">
         <div className="text-[var(--text-muted)]">Loading...</div>
+      </div>
+    );
+  }
+
+  if (user && entitlement.loading) {
+    return (
+      <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center">
+        <div className="text-[var(--text-muted)]">Checking premium access...</div>
       </div>
     );
   }
@@ -259,24 +283,44 @@ export default function App() {
   // Projects page (authenticated)
   if (viewMode === 'projects') {
       return (
-        <ProjectsPage
-          onSelectProject={handleSelectProject}
-          onLogout={handleLogout}
-          onOpenTools={handleOpenTools}
-          entitlement={entitlement}
-        />
+        <>
+          <ProjectsPage
+            onSelectProject={handleSelectProject}
+            onLogout={handleLogout}
+            onOpenTools={handleOpenTools}
+            entitlementStatus={entitlement.status}
+            trialDaysLeft={entitlement.trialDaysLeft}
+            onUpgrade={handleRequireUpgrade}
+          />
+          {showUpgradeModal && (
+            <UpgradeModal
+              onClose={() => setShowUpgradeModal(false)}
+              source="Project folders and saved outputs"
+            />
+          )}
+        </>
       );
   }
 
   // Project detail page
   if (viewMode === 'project-detail') {
       return (
-        <ProjectDetailPage
-          projectId={selectedProjectId}
-          onBack={handleBackFromProject}
-          onOpenTools={handleOpenTools}
-          entitlement={entitlement}
-        />
+        <>
+          <ProjectDetailPage
+            projectId={selectedProjectId}
+            onBack={handleBackFromProject}
+            onOpenTools={handleOpenTools}
+            entitlementStatus={entitlement.status}
+            trialDaysLeft={entitlement.trialDaysLeft}
+            onUpgrade={handleRequireUpgrade}
+          />
+          {showUpgradeModal && (
+            <UpgradeModal
+              onClose={() => setShowUpgradeModal(false)}
+              source="Project folders and saved outputs"
+            />
+          )}
+        </>
       );
   }
 
@@ -308,6 +352,9 @@ export default function App() {
           toolName={saveModalState.toolName}
           inputs={saveModalState.inputs}
           result={saveModalState.result}
+          entitlementStatus={entitlement.status}
+          trialDaysLeft={entitlement.trialDaysLeft}
+          onUpgrade={handleRequireUpgrade}
           onClose={() => setSaveModalState(null)}
           onSuccess={() => setSaveModalState(null)}
         />
@@ -316,8 +363,7 @@ export default function App() {
       {showUpgradeModal && (
         <UpgradeModal
           onClose={() => setShowUpgradeModal(false)}
-          title="Saving needs premium"
-          message="Your free 2-week trial of project folders has ended. Upgrade once and keep saving outputs forever."
+          source="Project folders and saved outputs"
         />
       )}
     </>
